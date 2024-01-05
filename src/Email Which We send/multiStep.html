@@ -1,0 +1,218 @@
+<table>
+    <tr>
+       <td><b>First Name:</b></td>
+       <td>Waqas Ahmed</td>
+   </tr>
+   <tr>
+       <td><b>Last Name:</b></td>
+       <td>{{ $lead->last_name }}</td>
+   </tr>
+     <tr>
+       <td><b>Phone:</b></td>
+       <td>{{ $lead->phone }}</td>
+   </tr>
+   <tr>
+       <td><b>Email:</b></td>
+       <td>{{ $lead->email }}</td>
+   </tr>
+     <tr>
+       <td><b>Business name</b></td>
+       <td>{{ $lead->business_name }}</td>
+   </tr>
+ 
+   <tr>
+       <td><b>Trade Name:</b></td>
+       <td>{{ $lead->trade_name }}</td>
+  </tr>
+   <tr>
+       <td><b>City:</b></td>
+       <td>{{ $lead->city }}</td>
+   </tr>
+   <tr>
+       <td><b>State:</b></td>
+       <td>{{ $lead->state }}</td>
+   </tr>
+ 
+       <td><b>Address Line 1:</b></td>
+       <td>{{ $lead->address_line_1 }}</td>
+   </tr>
+
+   <tr>
+       <td><b>Address Line 2:</b></td>
+       <td>{{ $lead->address_line_2 }}</td>
+   </tr>
+   <tr>
+       <td><b>ZIP:</b></td>
+       <td>{{ $lead->zip }}</td>
+   </tr>
+   <tr>
+       <td><b>Self Employed From:</b></td>
+       <td>{{ $lead->self_employed_from }}</td>
+   </tr>
+    <tr>
+       <td><b>Net Income 2019:</b></td>
+     <td>
+       @if($lead->net_income_2019)
+           ${{ $lead->net_income_2019 }}
+       @endif
+   </td>
+   </tr>
+   <tr>
+       <td><b>Net Income 2020:</b></td>
+      <td>
+       @if($lead->net_income_2020)
+           ${{ $lead->net_income_2020 }}
+       @endif
+   </td>
+   <tr>
+       <td><b>Net Income 2021:</b></td>
+     <td>
+       @if($lead->net_income_2021)
+           ${{ $lead->net_income_2021 }}
+       @endif
+   </td>
+   </tr>
+   <tr>
+       <td><b>Business Negatively Impacted:</b></td>
+       <td>{{ $lead->business_negatively_impacted }}</td>
+   </tr>
+   <tr>
+       <td><b>Personal Start Date 2020:</b></td>
+       <td>{{ $lead->personal_startdate2020 }}</td>
+   </tr>
+   <tr>
+       <td><b>Personal End Date 2020:</b></td>
+       <td>{{ $lead->personal_enddate2020 }}</td>
+   </tr>
+   <tr>
+   <td><b>Total Days sick with Covid 2020:</b></td>
+   <td>{{ $lead->{'1days'} }}</td>
+   </tr>
+   <tr>
+       <td><b>Personal Start Date 2021:</b></td>
+       <td>{{ $lead->personal_startdate2021 }}</td>
+   </tr>
+   <tr>
+       <td><b>Personal End Date 2021:</b></td>
+       <td>{{ $lead->personal_enddate2021 }}</td>
+   </tr>
+ <td><b>Total Days sick with Covid 2021:</b></td>
+   <td>{{ $lead->{'2days'} }}</td>
+   </tr>
+   <tr>
+       <td><b>Cared Start Date 2020:</b>
+</td>
+       <td>{{ $lead->cared_startdate2020 }}</td>
+   </tr>
+   <tr>
+       <td><b>Cared End Date 2020:</b></td>
+       <td>{{ $lead->cared_enddate2020 }}</td>
+   </tr>
+    <td><b> Days care for someone else 2020:</b></td>
+   <td>{{ $lead->{'3days'} }}</td>
+   </tr>
+   <tr>
+       <td><b>Cared Start Date 2021:</b></td>
+       <td>{{ $lead->cared_startdate2021 }}</td>
+   </tr>
+   <tr>
+       <td><b>Cared End Date 2021:</b></td>
+       <td>{{ $lead->cared_enddate2021 }}</td>
+   </tr>
+    <td><b> Days care for someone else 2021:</b></td>
+   <td>{{ $lead->{'4days'} }}</td>
+   </tr>
+   <tr>
+       <td><b>Minor Start Date 2020:</b></td>
+       <td>{{ $lead->minor_startdate2020 }}</td>
+   </tr>
+   <tr>
+       <td><b>Minor End Date 2020:</b></td>
+       <td>{{ $lead->minor_enddate2020 }}</td>
+   </tr>
+    <td><b> Days care for minor child 2020:</b></td>
+   <td>{{ $lead->{'5days'} }}</td>
+   </tr>
+   <tr>
+       <td><b>Minor Start Date 2021:</b></td>
+       <td>{{ $lead->minor_startdate2021 }}</td>
+   </tr>
+   <tr>
+       <td><b>Minor End Date 2021:</b></td>
+       <td>{{ $lead->minor_enddate2021 }}</td>
+   </tr>
+    <td><b> Days care for minor child 2021:</b></td>
+   <td>{{ $lead->{'6days'} }}</td>
+   </tr>
+   <tr>
+       <td><b>Employed as W2:</b></td>
+       <td>{{ $lead->employed_as_W2 }}</td>
+   </tr>
+     <tr>
+       <td><b>Setc:</b></td>
+       <td>{{ $lead->setc }}</td>
+   </tr>
+   
+   <tr>
+       <td><b>Family Sick Leave:</b></td>
+       <td>{{ $lead->Family_Sick_Leave }}</td>
+   </tr>
+   <tr>
+       <td><b>Amount:2020</b></td>
+     <td>
+       @if($lead->amount2020)
+           ${{ $lead->amount2020 }}
+       @endif
+   </td>
+   </tr>
+     <tr>
+       <td><b>Amount:2021</b></td>
+  <td>
+       @if($lead->amount2021)
+           ${{ $lead->amount2021 }}
+       @endif
+   </td>
+   <tr>
+   <td><b>Schedule PDF Name:</b></td>
+   <td>{{ $lead->schedule_pdf_name ?? '' }}</td>
+</tr>
+<tr>
+   <td><b>Driving Licence Name:</b></td>
+   <td>{{ $lead->driving_licence_name ?? '' }}</td>
+</tr>
+<tr>
+   <td><b>Tax Return 2021 Name:</b></td>
+   <td>{{ $lead->Tax_Return_2021_name ?? '' }}</td>
+</tr>
+<tr>
+   <td><b>Tax Return 2020 Name:</b></td>
+   <td>{{ $lead->Tax_Return_2020_name ?? '' }}</td>
+</tr>
+<tr>
+   <td><b>Supplemental Attachment 2021 Name:</b></td>
+   <td>{{ $lead->supplemental_attachment_2021_name ?? '' }}</td>
+</tr>
+<tr>
+   <td><b>Supplemental Attachment 2020 Name:</b></td>
+   <td>{{ $lead->supplemental_attachment_2020_name ?? '' }}</td>
+</tr>
+<tr>
+   <td><b>Form A1099 Name:</b></td>
+   <td>{{ $lead->FormA1099_name ?? '' }}</td>
+</tr>
+<tr>
+   <td><b>Form B1099 Name:</b></td>
+   <td>{{ $lead->FormB1099_name ?? '' }}</td>
+</tr>
+<tr>
+   <td><b>Ks2020 Name:</b></td>
+   <td>{{ $lead->ks2020_name ?? '' }}</td>
+</tr>
+<tr>
+   <td><b>Ks2021 Name:</b></td>
+   <td>{{ $lead->ks22020_name ?? '' }}</td>
+</tr>
+
+         
+   </tr>
+</table>

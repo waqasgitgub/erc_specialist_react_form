@@ -1,0 +1,20 @@
+
+  .navbar-nav .nav-item .nav-link.active {
+    /* color: rgb(0, 182, 255); Change this to the desired color */
+    text-decoration: none;
+    /* text-shadow: 1px 1px #ded3d3; */
+    background-color: #192c57 !important;
+    border-radius: 7px;
+    color: white !important;
+    font-size: 18px;
+    padding: 5px 13px;
+    font-weight: 400;
+
+  }
+  .navbar-nav .nav-item .nav-link{
+    color: #192c57;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 18px;
+    padding: 7px 20px;
+  }
