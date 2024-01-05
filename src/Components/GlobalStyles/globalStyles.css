@@ -430,8 +430,8 @@ input.error{
   border-radius: 12px;
 }
 .MuiBox-root label {
-  font-weight: 700;
-  color: #192c57;
+ 
+  color: #99999a;
 }
 .img-applic1-content1 {
   /* padding: 50px 20px;
@@ -595,6 +595,9 @@ h3.plain {
   appearance: none;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.form-control{
+  padding: 11px .75rem !important;
 }
 
 #exampleModal .modal-dialog {

@@ -3,6 +3,7 @@ import Footer from "../../Components/Footer/Footer";
 import Navbar from "../../Components/Navbar/Navbar";
 import logo from "../../Components/GlobalImages/logo-set.png";
 import standUp from "../../Components/GlobalImages/Standup.png";
+import RTNIMG from "../../Components/GlobalImages/landing.jpg";
 import "../../Components/GlobalStyles/globalStyles.css";
 import { useHistory } from "react-router-dom";
 
@@ -21,7 +22,7 @@ const LandingPage = () => {
         <div class="col-lg-11" style={{ marginTop: 52.5 }}>
           <div class="start-application">
             <div class="row">
-              <div class="col-lg-6 col-md-6 col-sm-12 pe-0 d-none d-md-block">
+              {/* <div class="col-lg-6 col-md-6 col-sm-12 pe-0 d-none d-md-block">
                 <div
                   class="img-applci h-100 ahme"
                   style={{ backgroundSize: "100% 100%" }}
@@ -29,19 +30,21 @@ const LandingPage = () => {
                   <img src={logo} class="img-fluid lo" alt="" />
                   <img src={standUp} class="img-fluid" alt="" />
                 </div>
-              </div>
+              </div> */}
 
-              <div class="col-lg-6 col-md-6 col-sm-12 ps-0">
+              <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                 <div
                   class="img-applic-content align-items-center ahm"
                   style={{ border: "2px solid #dff5fc" }}
                 >
-                  <h2>Claiming Your Self-Employed Tax Credit (SETC)</h2>
+                  <h2>Apply for the Employee Retention Credit!</h2>
+                <div  class="d-flex justify-content-center align-items-center w-100"
+ >  
+  <img src={RTNIMG} /> 
+                   
+                    </div>
 
-                  <h4 class="text-center" style={{ color: "#29abe2" }}>
-                    You may be eligible for up to $32,200
-                  </h4>
-
+              
                   <div class="d-flex justify-content-center flex-column align-items-center w-100">
                     <div class="btn-apli">
                       <a>
@@ -138,7 +141,7 @@ const LandingPage = () => {
                             aria-expanded="false"
                             aria-controls="flush-collapseOne"
                             style={{
-                              borderRadius: "10px",
+                              borderRadius: "0px",
                               backgroundColor: "#29abe2",
                               color: "white",
                               fontWeight: "500",
@@ -209,7 +212,35 @@ const LandingPage = () => {
                             </a>
                           </div>
                         </div>
+                        <div class="btn-aplii mb-3">
+                      <p class="mb-1 fw-bold text-start">Did  you  know?</p>
+
+                      <a>
+                        <div
+                         
+                         class="apli-note"
+                       
+                        >
+                        <p style={{fontSize: '17px', color:'black'}}>We've helped over <span style={{color:'green',fontWeight: 600, fontSize: '21px'}}>50,000</span> companies claim the Employee Retention Credit!</p> 
+                          <span class="ms-1">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="27"
+                              height="16"
+                              viewBox="0 0 27 16"
+                              fill="none"
+                            >
+                              <path
+                                d="M26.7021 8.59499C27.0963 8.20812 27.1022 7.57499 26.7153 7.18083L20.411 0.757753C20.0242 0.3636 19.391 0.357691 18.9969 0.744553C18.6027 1.13142 18.5968 1.76455 18.9837 2.15871L24.5875 7.86811L18.8781 13.4719C18.4839 13.8588 18.478 14.4919 18.8649 14.8861C19.2517 15.2802 19.8849 15.2861 20.279 14.8993L26.7021 8.59499ZM0.853459 8.64662L25.9923 8.88127L26.011 6.88135L0.872126 6.64671L0.853459 8.64662Z"
+                                fill=""
+                              ></path>
+                            </svg>
+                          </span>
+                        </div>
+                      </a>
+                    </div>
                       </div>
+                      
                     </div>
                   </div>
                 </div>

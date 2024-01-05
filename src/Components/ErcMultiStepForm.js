@@ -14,24 +14,26 @@ import axios from "axios";
 import gifTick from "./GlobalImages/gif-submit.gif";
 import { TaskAlt } from "@mui/icons-material";
 
-
 function LinearProgressWithLabel(props) {
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', marginTop: 5,
-   }}>
-      <Box sx={{ width: '100%',  
-    }}>
-        <LinearProgress sx={{height: '10px', borderRadius: "6px"}} variant="determinate" {...props} />
+    <Box sx={{ display: "flex", alignItems: "center", marginTop: 5 }}>
+      <Box sx={{ width: "100%" }}>
+        <LinearProgress
+          sx={{ height: "10px", borderRadius: "6px" }}
+          variant="determinate"
+          {...props}
+        />
       </Box>
       <Box sx={{ minWidth: 35 }}>
-        <Typography style={{fontWeight: 600}} variant="body2" color="text.secondary">{`${Math.round(
-          props.value,
-        )}%`}</Typography>
+        <Typography
+          style={{ fontWeight: 600 }}
+          variant="body2"
+          color="text.secondary"
+        >{`${Math.round(props.value)}%`}</Typography>
       </Box>
     </Box>
   );
 }
-
 
 const steps = [
   "Select campaign settings",
@@ -47,9 +49,7 @@ const steps = [
   "Step 11",
 ];
 
-
-
-const MultiStepForm = () => {
+const ErcMultiStepForm = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [activeErrorQualifyOne, setActiveErrorQualifyOne] = useState(false);
   const [activeErrorQualifyTwo, setActiveErrorQualifyTwo] = useState(false);
@@ -65,10 +65,8 @@ const MultiStepForm = () => {
     FormA1099: null,
     FormB1099: null,
     ks2020: null,
-    ks22020: null
-
+    ks22020: null,
   });
-
 
   const [uploadProgress, setUploadProgress] = useState({
     driving_licence: 0,
@@ -80,10 +78,10 @@ const MultiStepForm = () => {
     FormA1099: 0,
     FormB1099: 0,
     ks2020: 0,
-    ks22020: 0
+    ks22020: 0,
   });
-  
-  const [uploadingFile, setUploadingFile] = useState('');
+
+  const [uploadingFile, setUploadingFile] = useState("");
 
   const handleFileChange = (inputName, event) => {
     const selectedFile = event.target.files[0];
@@ -91,15 +89,11 @@ const MultiStepForm = () => {
       ...prevSelectedFiles,
       [inputName]: selectedFile,
     }));
-    
+
     uploadFile(selectedFile, inputName); // Call upload function for each file change
   };
 
-   // Function to upload the file
-  
- 
-  
-  
+  // Function to upload the file
 
   const handleCheckboxChange = (event) => {
     setCheckboxChecked(event.target.checked);
@@ -119,42 +113,38 @@ const MultiStepForm = () => {
       selectedFiles?.schedule_pdf &&
       selectedFiles?.Tax_Return_2020 &&
       selectedFiles?.Tax_Return_2021 &&
-      selectedFiles?.supplemental_attachment_2020  &&
+      selectedFiles?.supplemental_attachment_2020 &&
       selectedFiles?.supplemental_attachment_2021 &&
       selectedFiles?.FormA1099 &&
       selectedFiles?.FormB1099 &&
       selectedFiles?.ks2020 &&
       selectedFiles?.ks22020
-      
     );
   };
 
   const shouldDisableButtons = () => {
     return !(checkboxChecked && allFilesSelected());
-      
   };
-
 
   const shouldDisableButtonsAdditional = () => {
-      return !(checkboxChecked && allFilesSelectedAdditional());
+    return !(checkboxChecked && allFilesSelectedAdditional());
   };
 
-
   const shouldDisableButtonLater = () => {
-    return !(checkboxChecked);
+    return !checkboxChecked;
   };
 
   const handleSubmitLater = async () => {
     const token = localStorage.getItem("token");
-  
+
     try {
       const response = await axios.put(
-        'http://localhost:5000/user/updateApplication',
-        {},  // You might need to pass data here if required by the API
+        "http://localhost:5000/user/updateApplication",
+        {}, // You might need to pass data here if required by the API
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json', // Change content type if not sending multipart/form-data
+            "Content-Type": "application/json", // Change content type if not sending multipart/form-data
           },
           onUploadProgress: (progressEvent) => {
             // Update progress for each file
@@ -162,28 +152,27 @@ const MultiStepForm = () => {
           },
         }
       );
-  
+
       console.log(`Files uploaded successfully`, response.data);
       await fetchUserDataa();
       // Handle success response
-  
     } catch (error) {
       console.error(`Error uploading files:`, error);
       // Handle error
     }
   };
 
-  const handleSubmiDocuments = async ()  => {
+  const handleSubmiDocuments = async () => {
     const token = localStorage.getItem("token");
-  
+
     try {
       const response = await axios.put(
-        'http://localhost:5000/user/updateDocumentStatus',
-        {},  // You might need to pass data here if required by the API
+        "http://localhost:5000/user/updateDocumentStatus",
+        {}, // You might need to pass data here if required by the API
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json', // Change content type if not sending multipart/form-data
+            "Content-Type": "application/json", // Change content type if not sending multipart/form-data
           },
           onUploadProgress: (progressEvent) => {
             // Update progress for each file
@@ -191,19 +180,15 @@ const MultiStepForm = () => {
           },
         }
       );
-        alert("Complete Application");
+      alert("Complete Application");
       console.log(`Files uploaded successfully`, response.data);
       await fetchUserDataa();
       // Handle success response
-  
     } catch (error) {
       console.error(`Error uploading files:`, error);
       // Handle error
     }
   };
-  
-
-
 
   const dispatch = useDispatch();
 
@@ -235,9 +220,6 @@ const MultiStepForm = () => {
     netIncome2021: "",
 
     bussinessNegatively: "",
-    
-
-
 
     personallySick2020: "",
 
@@ -254,30 +236,27 @@ const MultiStepForm = () => {
     symptoms2020: "",
     cared_startdate2020: "",
     cared_enddate2020: "",
-    symptomsdays2020: "", 
+    symptomsdays2020: "",
 
     symptoms2021: "",
     cared_startdate2021: "",
     cared_enddate2021: "",
-    symptomsdays2021: "", 
-
+    symptomsdays2021: "",
 
     closure2020: "",
     minor_startdate2020: "",
     minor_enddate2020: "",
     minordays2020: "",
 
-
     closure2021: "",
     minor_startdate2021: "",
     minor_enddate2021: "",
     minordays2021: "",
 
-
     employed_as_W2: "",
     family_sick: "",
     amount2020: "",
-    amount2021: ""
+    amount2021: "",
 
     // Add other form fields here
   };
@@ -285,13 +264,11 @@ const MultiStepForm = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [emailValidated, setEmailValidated] = useState(false);
 
-
-console.log(formData.symptomsdays2020, 'dayssssssssssss')
+  console.log(formData.symptomsdays2020, "dayssssssssssss");
 
   const [errors, setErrors] = useState({});
 
-  const handleToken = (token) => 
-  {
+  const handleToken = (token) => {
     localStorage.setItem("token", token);
     // const existingToken = localStorage.getItem('token');
     // if (!existingToken) {
@@ -327,10 +304,9 @@ console.log(formData.symptomsdays2020, 'dayssssssssssss')
         // alert(selectToken)
         const data = await response.json();
         handleToken(data.user.token);
-        
-       
-        console.log(data.user.first_name ,  data.user.last_name, 'hamzawaqas')
-       
+
+        console.log(data.user.first_name, data.user.last_name, "hamzawaqas");
+
         localStorage.setItem("fName", data.user.first_name);
         localStorage.setItem("lName", data.user.last_name);
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -385,38 +361,34 @@ console.log(formData.symptomsdays2020, 'dayssssssssssss')
             business_negatively_impacted: formData.bussinessNegatively,
 
             personal_startdate2020: formData.personal_startdate2020,
-              personal_enddate2020: formData.personal_enddate2020  ,
-              onedays:formData.numberOfDays ,
+            personal_enddate2020: formData.personal_enddate2020,
+            onedays: formData.numberOfDays,
 
-              personal_startdate2021: formData.personal_startdate2021,
-              personal_enddate2021: formData.personal_enddate2021,
-              twodays: formData.numberOfDays2021,
+            personal_startdate2021: formData.personal_startdate2021,
+            personal_enddate2021: formData.personal_enddate2021,
+            twodays: formData.numberOfDays2021,
 
-              cared_startdate2020: formData.cared_startdate2020,
-              cared_enddate2020: formData.cared_enddate2020,
-              threedays:formData.symptomsdays2020 ,
-              
-              cared_startdate2021: formData.cared_startdate2021,
-              cared_enddate2021: formData. cared_enddate2021  ,
-              fourdays:formData.symptomsdays2021 ,
+            cared_startdate2020: formData.cared_startdate2020,
+            cared_enddate2020: formData.cared_enddate2020,
+            threedays: formData.symptomsdays2020,
 
+            cared_startdate2021: formData.cared_startdate2021,
+            cared_enddate2021: formData.cared_enddate2021,
+            fourdays: formData.symptomsdays2021,
 
+            minor_startdate2020: formData.minor_startdate2020,
+            minor_enddate2020: formData.minor_enddate2020,
+            fivedays: formData.minordays2020,
 
-              minor_startdate2020: formData.minor_startdate2020 ,
-              minor_enddate2020: formData.minor_enddate2020 ,
-              fivedays:formData.minordays2020 ,
+            minor_startdate2021: formData.minor_startdate2021,
+            minor_enddate2021: formData.minor_enddate2021,
+            sixdays: formData.minordays2021,
 
-              minor_startdate2021: formData.minor_startdate2021 ,
-              minor_enddate2021: formData.minor_enddate2021 ,
-              sixdays:formData.minordays2021 ,
+            employed_as_W2: formData.employed_as_W2,
+            Family_Sick_Leave: formData.family_sick,
 
-              employed_as_W2: formData.employed_as_W2 ,
-              Family_Sick_Leave :formData.family_sick,
-
-              amount2020 : formData.amount2020 ,
-              amount2021 : formData.amount2021,
-
-
+            amount2020: formData.amount2020,
+            amount2021: formData.amount2021,
           }),
         }
       );
@@ -470,9 +442,6 @@ console.log(formData.symptomsdays2020, 'dayssssssssssss')
             zip: formData.zipCode,
             know_about_us: formData.knowAbout,
             self_employed_from: formData.selfEmployedFrom,
-           
-
-
           }),
         }
       );
@@ -532,36 +501,34 @@ console.log(formData.symptomsdays2020, 'dayssssssssssss')
             business_negatively_impacted: formData.bussinessNegatively,
 
             personal_startdate2020: formData.personal_startdate2020,
-              personal_enddate2020: formData.personal_enddate2020  ,
-              onedays:formData.numberOfDays ,
+            personal_enddate2020: formData.personal_enddate2020,
+            onedays: formData.numberOfDays,
 
-              personal_startdate2021: formData.personal_startdate2021,
-              personal_enddate2021: formData.personal_enddate2021,
-              twodays: formData.numberOfDays2021,
+            personal_startdate2021: formData.personal_startdate2021,
+            personal_enddate2021: formData.personal_enddate2021,
+            twodays: formData.numberOfDays2021,
 
-              cared_startdate2020: formData.cared_startdate2020,
-              cared_enddate2020: formData.cared_enddate2020,
-              threedays:formData.symptomsdays2020 ,
-              
-              cared_startdate2021: formData.cared_startdate2021,
-              cared_enddate2021: formData. cared_enddate2021  ,
-              fourdays:formData.symptomsdays2021 ,
+            cared_startdate2020: formData.cared_startdate2020,
+            cared_enddate2020: formData.cared_enddate2020,
+            threedays: formData.symptomsdays2020,
 
+            cared_startdate2021: formData.cared_startdate2021,
+            cared_enddate2021: formData.cared_enddate2021,
+            fourdays: formData.symptomsdays2021,
 
+            minor_startdate2020: formData.minor_startdate2020,
+            minor_enddate2020: formData.minor_enddate2020,
+            fivedays: formData.minordays2020,
 
-              minor_startdate2020: formData.minor_startdate2020 ,
-              minor_enddate2020: formData.minor_enddate2020 ,
-              fivedays:formData.minordays2020 ,
+            minor_startdate2021: formData.minor_startdate2021,
+            minor_enddate2021: formData.minor_enddate2021,
+            sixdays: formData.minordays2021,
 
-              minor_startdate2021: formData.minor_startdate2021 ,
-              minor_enddate2021: formData.minor_enddate2021 ,
-              sixdays:formData.minordays2021 ,
+            employed_as_W2: formData.employed_as_W2,
+            Family_Sick_Leave: formData.family_sick,
 
-              employed_as_W2: formData.employed_as_W2 ,
-              Family_Sick_Leave :formData.family_sick,
-
-              amount2020 : formData.amount2020 ,
-              amount2021 : formData.amount2021,
+            amount2020: formData.amount2020,
+            amount2021: formData.amount2021,
           }),
         }
       );
@@ -615,7 +582,6 @@ console.log(formData.symptomsdays2020, 'dayssssssssssss')
             zip: formData.zipCode,
             know_about_us: formData.knowAbout,
             self_employed_from: formData.selfEmployedFrom,
-           
           }),
         }
       );
@@ -635,45 +601,44 @@ console.log(formData.symptomsdays2020, 'dayssssssssssss')
     }
   };
 
-const checkEmailAvailability = async () => {
-  try {
-    const response = await axios.post('http://localhost:5000/user/checkMail', {
-      email: formData.email,
-    });
+  const checkEmailAvailability = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/user/checkMail",
+        {
+          email: formData.email,
+        }
+      );
 
-    if (response.status === 200) {
-      console.log(response.data.message); // Log the message from the response
-      // Email is available
-      setEmailValidated(true);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        email: 'Email is available',
-      }));
-      
-    } else {
+      if (response.status === 200) {
+        console.log(response.data.message); // Log the message from the response
+        // Email is available
+        setEmailValidated(true);
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "Email is available",
+        }));
+      } else {
+        setEmailValidated(false);
+
+        // Email is not available
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "Email already in use!",
+        }));
+      }
+    } catch (error) {
       setEmailValidated(false);
-
-      // Email is not available
+      // Handle API error
+      console.error("Error checking email availability", error);
       setErrors((prevErrors) => ({
         ...prevErrors,
-        email: 'Email already in use!',
+        email: "Email already in use!",
       }));
     }
-  } catch (error) {
-    setEmailValidated(false);
-    // Handle API error
-    console.error('Error checking email availability', error);
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      email: 'Email already in use!',
-    }));
-  }
-};
-
-
+  };
 
   const handleNext = async () => {
-  
     console.log(activeStep, "here is my active step");
     // const isValid = validateInputs();
     // if (!isValid) {
@@ -684,13 +649,13 @@ const checkEmailAvailability = async () => {
     // //   // Validate email before proceeding to the next step
     // //   await checkEmailAvailability();
     // const token = localStorage.getItem('token');
-     
+
     // // }
 
     // if (token) {
     //   if (activeStep === 0) {
     //     formDataUpdate(activeStep);
-      
+
     //   }
     // }
     // else {
@@ -698,14 +663,12 @@ const checkEmailAvailability = async () => {
     //   if (activeStep === 0) {
     //     formDataPreparing(activeStep);
     //   }
-      
-    // }
 
+    // }
 
     // if (activeStep === 1) {
     //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
     // }
-
 
     // if (activeStep === 2) {
     //   formDataUpdateStepTwo(activeStep);
@@ -732,20 +695,26 @@ const checkEmailAvailability = async () => {
     //   formDataUpdate(activeStep);
     // }
 
-    
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (formData.selfEmployedFrom === "No" && activeStep === 2) {
+      setActiveStep(4); // Move to step 4
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
     window.scrollTo(0, 0);
   };
 
   const handlePrevious = () => {
-  
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    if (activeStep === 4 && formData.selfEmployedFrom === "No") {
+      setActiveStep(2); // Move back to step 2
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    }
     window.scrollTo(0, 0);
   };
   const handleInputChange = (event) => {
     const { name, value, type } = event.target;
     let inputValue = value;
-  
+
     if (type === "checkbox") {
       inputValue = event.target.checked;
     } else if (type === "date") {
@@ -757,7 +726,7 @@ const checkEmailAvailability = async () => {
         inputValue = formattedDate;
       }
     }
-  
+
     if (name === "personallySick2020" && inputValue === "No") {
       // Clear values for 2020 if "No" is selected
       setFormData((prevFormData) => ({
@@ -781,7 +750,7 @@ const checkEmailAvailability = async () => {
         [name]: inputValue,
       }));
     }
-  
+
     if (name === "symptoms2020" && inputValue === "No") {
       // Clear values for 2020 if "No" is selected
       setFormData((prevFormData) => ({
@@ -791,9 +760,7 @@ const checkEmailAvailability = async () => {
         symptomsdays2020: "",
         [name]: inputValue,
       }));
-    } 
-    else if (name === "symptoms2021" && inputValue === "No")
-    {
+    } else if (name === "symptoms2021" && inputValue === "No") {
       setFormData((prevFormData) => ({
         ...prevFormData,
         cared_startdate2021: "",
@@ -801,8 +768,7 @@ const checkEmailAvailability = async () => {
         symptomsdays2021: "",
         [name]: inputValue,
       }));
-    }
-    else {
+    } else {
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: inputValue,
@@ -818,9 +784,7 @@ const checkEmailAvailability = async () => {
         minordays2020: "",
         [name]: inputValue,
       }));
-    } 
-    else if (name === "closure2021" && inputValue === "No")
-    {
+    } else if (name === "closure2021" && inputValue === "No") {
       setFormData((prevFormData) => ({
         ...prevFormData,
         minor_startdate2021: "",
@@ -828,16 +792,17 @@ const checkEmailAvailability = async () => {
         minordays2021: "",
         [name]: inputValue,
       }));
-    }
-    else {
+    } else {
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: inputValue,
       }));
     }
 
-
-    if (name === "family_sick" && inputValue === "No" || name === "employed_as_W2" && inputValue === "No") {
+    if (
+      (name === "family_sick" && inputValue === "No") ||
+      (name === "employed_as_W2" && inputValue === "No")
+    ) {
       // Clear values for 2020 if "No" is selected
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -845,15 +810,13 @@ const checkEmailAvailability = async () => {
         amount2021: "",
         [name]: inputValue,
       }));
-    } 
-    else {
-  setFormData((prevFormData) => ({
+    } else {
+      setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: inputValue,
       }));
     }
 
-  
     if (name === "numberOfDays" && inputValue === "0") {
       // Reset date values to empty strings if numberOfDays becomes zero
       setFormData((prevFormData) => ({
@@ -876,32 +839,28 @@ const checkEmailAvailability = async () => {
         cared_enddate2020: "",
         [name]: inputValue,
       }));
-    } 
-    else if(name === "symptomsdays2021" && inputValue === "0"){
+    } else if (name === "symptomsdays2021" && inputValue === "0") {
       setFormData((prevFormData) => ({
         ...prevFormData,
         cared_startdate2021: "",
         cared_enddate2021: "",
         [name]: inputValue,
       }));
-    }
-    else if(name === "minordays2020" && inputValue === "0"){
+    } else if (name === "minordays2020" && inputValue === "0") {
       setFormData((prevFormData) => ({
         ...prevFormData,
         minor_startdate2020: "",
         minor_enddate2020: "",
         [name]: inputValue,
       }));
-    }
-    else if(name === "minordays2021" && inputValue === "0"){
+    } else if (name === "minordays2021" && inputValue === "0") {
       setFormData((prevFormData) => ({
         ...prevFormData,
         minor_startdate2021: "",
         minor_enddate2021: "",
         [name]: inputValue,
       }));
-    }
-    else {
+    } else {
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: inputValue,
@@ -909,20 +868,18 @@ const checkEmailAvailability = async () => {
     }
   };
   const handleEmailBlur = async () => {
-    const token = localStorage.getItem('token');
-   if(!token && formData.email.trim() !== ""){
-    await checkEmailAvailability();
-   }
-   else {
-    console.log("nothing")
-   }
+    const token = localStorage.getItem("token");
+    if (!token && formData.email.trim() !== "") {
+      await checkEmailAvailability();
+    } else {
+      console.log("nothing");
+    }
   };
-  
 
   const validateInputs = () => {
     let hasErrors = false;
     const errorsObj = {};
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     if (activeStep === 0) {
       if (formData.firstName.trim() === "") {
@@ -950,7 +907,7 @@ const checkEmailAvailability = async () => {
         errorsObj.email = "Email already in use!";
         hasErrors = true;
         window.scrollTo(0, 0);
-       }
+      }
 
       if (formData.bussinessName.trim() === "") {
         errorsObj.bussinessName = "Bussiness name cannot be empty";
@@ -991,7 +948,6 @@ const checkEmailAvailability = async () => {
         errorsObj.isChecked = "Please check the box";
         hasErrors = true;
       }
-   
     }
 
     if (activeStep === 2) {
@@ -1017,9 +973,8 @@ const checkEmailAvailability = async () => {
       if (!formData.isCheckedStepThree) {
         errorsObj.isCheckedStepThree = "Please check the box";
         hasErrors = true;
-       
       }
-     
+
       // if (hasErrors) {
       //   formDataUpdate(activeStep); // Call formDataUpdate here
       // }
@@ -1040,7 +995,7 @@ const checkEmailAvailability = async () => {
       }
     }
 
-    if(activeStep === 4) {
+    if (activeStep === 4) {
       if (!formData.bussinessNegatively) {
         errorsObj.bussinessNegatively = "Please select an option";
         hasErrors = true;
@@ -1054,219 +1009,240 @@ const checkEmailAvailability = async () => {
         hasErrors = true;
         formDataUpdateWithoutNextStep(activeStep);
       }
-      if (formData.bussinessNegatively === "Yes" ) {
+      if (formData.bussinessNegatively === "Yes") {
         setActiveErrorQualifyTwo(false);
         hasErrors = false;
       }
-
     }
 
-
-
     if (activeStep === 5) {
-
       if (!formData.personallySick2020) {
         errorsObj.personallySick2020 = "Please select an option";
         hasErrors = true;
       }
 
-     
-        if (!formData.personal_startdate2020 && formData.numberOfDays !== "0" && formData.personallySick2020 === 'Yes') {
-          errorsObj.personal_startdate2020 = "Please select date";
-          hasErrors = true;
-        }
+      if (
+        !formData.personal_startdate2020 &&
+        formData.numberOfDays !== "0" &&
+        formData.personallySick2020 === "Yes"
+      ) {
+        errorsObj.personal_startdate2020 = "Please select date";
+        hasErrors = true;
+      }
 
-        if (!formData.personal_enddate2020 && formData.numberOfDays !== "0" && formData.personallySick2020 === 'Yes') {
-          errorsObj.personal_enddate2020 = "Please select date";
-          hasErrors = true;
-        }
+      if (
+        !formData.personal_enddate2020 &&
+        formData.numberOfDays !== "0" &&
+        formData.personallySick2020 === "Yes"
+      ) {
+        errorsObj.personal_enddate2020 = "Please select date";
+        hasErrors = true;
+      }
 
-        if (!formData.numberOfDays && formData.personallySick2020 === 'Yes') {
-          errorsObj.numberOfDays = "Please select number";
-          hasErrors = true;
-        }
+      if (!formData.numberOfDays && formData.personallySick2020 === "Yes") {
+        errorsObj.numberOfDays = "Please select number";
+        hasErrors = true;
+      }
 
+      if (!formData.personallySick2021) {
+        errorsObj.personallySick2021 = "Please select an option";
+        hasErrors = true;
+      }
 
-        if (!formData.personallySick2021) {
-          errorsObj.personallySick2021 = "Please select an option";
-          hasErrors = true;
-        }
-
-      if (!formData.personal_startdate2021 && formData.numberOfDays2021 !== "0" && formData.personallySick2021 === 'Yes') {
+      if (
+        !formData.personal_startdate2021 &&
+        formData.numberOfDays2021 !== "0" &&
+        formData.personallySick2021 === "Yes"
+      ) {
         errorsObj.personal_startdate2021 = "Please select date";
         hasErrors = true;
       }
 
-      if (!formData.personal_enddate2021 && formData.numberOfDays2021 !== "0" && formData.personallySick2021 === 'Yes') {
+      if (
+        !formData.personal_enddate2021 &&
+        formData.numberOfDays2021 !== "0" &&
+        formData.personallySick2021 === "Yes"
+      ) {
         errorsObj.personal_enddate2021 = "Please select date";
         hasErrors = true;
       }
-      if (!formData.numberOfDays2021 && formData.personallySick2021 === 'Yes') {
+      if (!formData.numberOfDays2021 && formData.personallySick2021 === "Yes") {
         errorsObj.numberOfDays2021 = "Please select number";
         hasErrors = true;
       }
     }
 
-
     if (activeStep === 6) {
-
       if (!formData.symptoms2020) {
         errorsObj.symptoms2020 = "Please select an option";
         hasErrors = true;
       }
 
-     
-        if (!formData.cared_startdate2020 && formData.symptomsdays2020 !== "0" && formData.symptoms2020 === 'Yes') {
-          errorsObj.cared_startdate2020 = "Please select date";
-          hasErrors = true;
-        }
-
-        if (!formData.cared_enddate2020 && formData.symptomsdays2020 !== "0" && formData.symptoms2020 === 'Yes') {
-          errorsObj.cared_enddate2020 = "Please select date";
-          hasErrors = true;
-        }
-
-        if (!formData.symptomsdays2020 && formData.symptoms2020 === 'Yes') {
-          errorsObj.symptomsdays2020 = "Please select number";
-          hasErrors = true;
-        }
-
-
-
-        if (!formData.symptoms2021) {
-          errorsObj.symptoms2021 = "Please select an option";
-          hasErrors = true;
-        }
-  
-       
-          if (!formData.cared_startdate2021 && formData.symptomsdays2021 !== "0" && formData.symptoms2021 === 'Yes') {
-            errorsObj.cared_startdate2021 = "Please select date";
-            hasErrors = true;
-          }
-  
-          if (!formData.cared_enddate2021 && formData.symptomsdays2021 !== "0" && formData.symptoms2021 === 'Yes') {
-            errorsObj.cared_enddate2021 = "Please select date";
-            hasErrors = true;
-          }
-  
-          if (!formData.symptomsdays2021 && formData.symptoms2021 === 'Yes') {
-            errorsObj.symptomsdays2021 = "Please select number";
-            hasErrors = true;
-          }
+      if (
+        !formData.cared_startdate2020 &&
+        formData.symptomsdays2020 !== "0" &&
+        formData.symptoms2020 === "Yes"
+      ) {
+        errorsObj.cared_startdate2020 = "Please select date";
+        hasErrors = true;
       }
 
+      if (
+        !formData.cared_enddate2020 &&
+        formData.symptomsdays2020 !== "0" &&
+        formData.symptoms2020 === "Yes"
+      ) {
+        errorsObj.cared_enddate2020 = "Please select date";
+        hasErrors = true;
+      }
 
+      if (!formData.symptomsdays2020 && formData.symptoms2020 === "Yes") {
+        errorsObj.symptomsdays2020 = "Please select number";
+        hasErrors = true;
+      }
 
-      if (activeStep === 7) {
+      if (!formData.symptoms2021) {
+        errorsObj.symptoms2021 = "Please select an option";
+        hasErrors = true;
+      }
 
-        if (!formData.closure2020) {
-          errorsObj.closure2020 = "Please select an option";
-          hasErrors = true;
-        }
-  
-       
-          if (!formData.minor_startdate2020 && formData.minordays2020 !== "0" && formData.closure2020 === 'Yes') {
-            errorsObj.minor_startdate2020 = "Please select date";
-            hasErrors = true;
-          }
-  
-          if (!formData.minor_enddate2020 && formData.minordays2020 !== "0" && formData.closure2020 === 'Yes') {
-            errorsObj.minor_enddate2020 = "Please select date";
-            hasErrors = true;
-          }
-  
-          if (!formData.minordays2020 && formData.closure2020 === 'Yes') {
-            errorsObj.minordays2020 = "Please select number";
-            hasErrors = true;
-          }
-  
-  
-  
-          if (!formData.closure2021) {
-            errorsObj.closure2021 = "Please select an option";
-            hasErrors = true;
-          }
-    
-         
-            if (!formData.minor_startdate2021 && formData.minordays2021 !== "0" && formData.closure2021 === 'Yes') {
-              errorsObj.minor_startdate2021 = "Please select date";
-              hasErrors = true;
-            }
-    
-            if (!formData.minor_enddate2021 && formData.minordays2021 !== "0" && formData.closure2021 === 'Yes') {
-              errorsObj.minor_enddate2021 = "Please select date";
-              hasErrors = true;
-            }
-    
-            if (!formData.minordays2021 && formData.closure2021 === 'Yes') {
-              errorsObj.minordays2021 = "Please select number";
-              hasErrors = true;
-            }
-        }
+      if (
+        !formData.cared_startdate2021 &&
+        formData.symptomsdays2021 !== "0" &&
+        formData.symptoms2021 === "Yes"
+      ) {
+        errorsObj.cared_startdate2021 = "Please select date";
+        hasErrors = true;
+      }
 
+      if (
+        !formData.cared_enddate2021 &&
+        formData.symptomsdays2021 !== "0" &&
+        formData.symptoms2021 === "Yes"
+      ) {
+        errorsObj.cared_enddate2021 = "Please select date";
+        hasErrors = true;
+      }
 
+      if (!formData.symptomsdays2021 && formData.symptoms2021 === "Yes") {
+        errorsObj.symptomsdays2021 = "Please select number";
+        hasErrors = true;
+      }
+    }
 
+    if (activeStep === 7) {
+      if (!formData.closure2020) {
+        errorsObj.closure2020 = "Please select an option";
+        hasErrors = true;
+      }
 
+      if (
+        !formData.minor_startdate2020 &&
+        formData.minordays2020 !== "0" &&
+        formData.closure2020 === "Yes"
+      ) {
+        errorsObj.minor_startdate2020 = "Please select date";
+        hasErrors = true;
+      }
 
-        if (activeStep === 8) {
+      if (
+        !formData.minor_enddate2020 &&
+        formData.minordays2020 !== "0" &&
+        formData.closure2020 === "Yes"
+      ) {
+        errorsObj.minor_enddate2020 = "Please select date";
+        hasErrors = true;
+      }
 
-          if (!formData.employed_as_W2) {
-            errorsObj.employed_as_W2 = "Please select an option";
-            hasErrors = true;
-          }
-          if (!formData.family_sick && formData.employed_as_W2 === "Yes") {
-            errorsObj.family_sick = "Please select an option";
-            hasErrors = true;
-          }
+      if (!formData.minordays2020 && formData.closure2020 === "Yes") {
+        errorsObj.minordays2020 = "Please select number";
+        hasErrors = true;
+      }
 
-          if (formData.employed_as_W2 === "Yes" && formData.family_sick === "Yes" && formData.amount2020 === "") {
-            errorsObj.amount2020 = "Please select an option";
-            // errorsObj.amount2021 = "Please select an option";
-            hasErrors = true;
-          }
-          if (formData.employed_as_W2 === "Yes" && formData.family_sick === "Yes" && formData.amount2021 === "") {
-            errorsObj.amount2021 = "Please select an option";
-            // errorsObj.amount2021 = "Please select an option";
-            hasErrors = true;
-          }
+      if (!formData.closure2021) {
+        errorsObj.closure2021 = "Please select an option";
+        hasErrors = true;
+      }
 
-          // if (formData.employed_as_W2 === "Yes" &&  formData.employed_as_W2 !== 'No' ) {
-            
-          //   hasErrors = true;
-          // }
+      if (
+        !formData.minor_startdate2021 &&
+        formData.minordays2021 !== "0" &&
+        formData.closure2021 === "Yes"
+      ) {
+        errorsObj.minor_startdate2021 = "Please select date";
+        hasErrors = true;
+      }
 
-          // if (!formData.family_sick && formData.employed_as_W2 === "Yes") {
-          //   errorsObj.family_sick = "Please select an option";
-          //   hasErrors = true;
-          // }
+      if (
+        !formData.minor_enddate2021 &&
+        formData.minordays2021 !== "0" &&
+        formData.closure2021 === "Yes"
+      ) {
+        errorsObj.minor_enddate2021 = "Please select date";
+        hasErrors = true;
+      }
 
-    
-         
-            // if (!formData.minor_startdate2020 && formData.minordays2020 !== "0" && formData.closure2020 === 'Yes') {
-            //   errorsObj.minor_startdate2020 = "Please select date";
-            //   hasErrors = true;
-            // }
-    
-            // if (!formData.minor_enddate2020 && formData.minordays2020 !== "0" && formData.closure2020 === 'Yes') {
-            //   errorsObj.minor_enddate2020 = "Please select date";
-            //   hasErrors = true;
-            // }
-    
-            // if (!formData.minordays2020 && formData.closure2020 === 'Yes') {
-            //   errorsObj.minordays2020 = "Please select number";
-            //   hasErrors = true;
-            // }
-    
-    
-    
-            
-          }
+      if (!formData.minordays2021 && formData.closure2021 === "Yes") {
+        errorsObj.minordays2021 = "Please select number";
+        hasErrors = true;
+      }
+    }
+
+    if (activeStep === 8) {
+      if (!formData.employed_as_W2) {
+        errorsObj.employed_as_W2 = "Please select an option";
+        hasErrors = true;
+      }
+      if (!formData.family_sick && formData.employed_as_W2 === "Yes") {
+        errorsObj.family_sick = "Please select an option";
+        hasErrors = true;
+      }
+
+      if (
+        formData.employed_as_W2 === "Yes" &&
+        formData.family_sick === "Yes" &&
+        formData.amount2020 === ""
+      ) {
+        errorsObj.amount2020 = "Please select an option";
+        // errorsObj.amount2021 = "Please select an option";
+        hasErrors = true;
+      }
+      if (
+        formData.employed_as_W2 === "Yes" &&
+        formData.family_sick === "Yes" &&
+        formData.amount2021 === ""
+      ) {
+        errorsObj.amount2021 = "Please select an option";
+        // errorsObj.amount2021 = "Please select an option";
+        hasErrors = true;
+      }
+
+      // if (formData.employed_as_W2 === "Yes" &&  formData.employed_as_W2 !== 'No' ) {
+
+      //   hasErrors = true;
+      // }
+
+      // if (!formData.family_sick && formData.employed_as_W2 === "Yes") {
+      //   errorsObj.family_sick = "Please select an option";
+      //   hasErrors = true;
+      // }
+
+      // if (!formData.minor_startdate2020 && formData.minordays2020 !== "0" && formData.closure2020 === 'Yes') {
+      //   errorsObj.minor_startdate2020 = "Please select date";
+      //   hasErrors = true;
+      // }
+
+      // if (!formData.minor_enddate2020 && formData.minordays2020 !== "0" && formData.closure2020 === 'Yes') {
+      //   errorsObj.minor_enddate2020 = "Please select date";
+      //   hasErrors = true;
+      // }
+
+      // if (!formData.minordays2020 && formData.closure2020 === 'Yes') {
+      //   errorsObj.minordays2020 = "Please select number";
+      //   hasErrors = true;
+      // }
+    }
     // Add more validations for other steps if needed
-
-
-
-
-
 
     setErrors(errorsObj);
     return !hasErrors;
@@ -1276,14 +1252,12 @@ const checkEmailAvailability = async () => {
     return ((activeStep + 1) / steps.length) * 100; // Calculate progress percentage
   };
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token && formData.email !== '') {
+    const token = localStorage.getItem("token");
+    if (!token && formData.email !== "") {
       checkEmailAvailability();
     }
-  }, [formData.email]); 
+  }, [formData.email]);
 
-
-  
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem("token");
@@ -1318,61 +1292,75 @@ const checkEmailAvailability = async () => {
               province: userData.state || "",
               streetAddressTwo: userData.address_line_2 || "",
               zipCode: userData.zip || "",
-              knowAked: userData.email? true : false || false,
+              knowAked: userData.email ? true : false || false,
               selfEmbout: userData.know_about_us || "",
               isChecployedFrom: userData.self_employed_from || "",
-              isCheckedStepThree: userData.self_employed_from === "Yes" ? true : false || false,
-              netIncome2019: userData.net_income_2019 || '',
-              netIncome2020: userData.net_income_2020 || '',
-              netIncome2021: userData.net_income_2021 || '',
-              bussinessNegatively: userData.business_negatively_impacted || '',
-             
-              personal_startdate2020: userData.personal_startdate2020 || '',
-              personallySick2020: (userData.personal_startdate2020 || userData.onedays === "0" ) ? 'Yes' : '' || '',
-              personal_enddate2020: userData.personal_enddate2020 || '',
-              numberOfDays:userData.onedays || '',
+              isCheckedStepThree:
+                userData.self_employed_from === "Yes" ? true : false || false,
+              netIncome2019: userData.net_income_2019 || "",
+              netIncome2020: userData.net_income_2020 || "",
+              netIncome2021: userData.net_income_2021 || "",
+              bussinessNegatively: userData.business_negatively_impacted || "",
 
-              personal_startdate2021: userData.personal_startdate2021  || '',
+              personal_startdate2020: userData.personal_startdate2020 || "",
+              personallySick2020:
+                userData.personal_startdate2020 || userData.onedays === "0"
+                  ? "Yes"
+                  : "" || "",
+              personal_enddate2020: userData.personal_enddate2020 || "",
+              numberOfDays: userData.onedays || "",
 
-              personallySick2021: (userData.personal_enddate2021 || userData.twodays === "0") ? 'Yes' : '' || '',
+              personal_startdate2021: userData.personal_startdate2021 || "",
 
-              personal_enddate2021: userData.personal_enddate2021  || '',
-              numberOfDays2021: userData.twodays  || '',
+              personallySick2021:
+                userData.personal_enddate2021 || userData.twodays === "0"
+                  ? "Yes"
+                  : "" || "",
 
+              personal_enddate2021: userData.personal_enddate2021 || "",
+              numberOfDays2021: userData.twodays || "",
 
-              cared_startdate2020: userData.cared_startdate2020 || '',
-              symptoms2020: (userData.cared_startdate2020 || userData.threedays === "0" ) ? 'Yes' : '' || '',
-              cared_enddate2020: userData.cared_enddate2020 || '',
-              symptomsdays2020:userData.threedays || '',
+              cared_startdate2020: userData.cared_startdate2020 || "",
+              symptoms2020:
+                userData.cared_startdate2020 || userData.threedays === "0"
+                  ? "Yes"
+                  : "" || "",
+              cared_enddate2020: userData.cared_enddate2020 || "",
+              symptomsdays2020: userData.threedays || "",
 
-              cared_startdate2021: userData.cared_startdate2021  || '',
+              cared_startdate2021: userData.cared_startdate2021 || "",
 
-              symptoms2021: (userData.cared_enddate2021 || userData.fourdays) ? 'Yes' : '' || '',
+              symptoms2021:
+                userData.cared_enddate2021 || userData.fourdays
+                  ? "Yes"
+                  : "" || "",
 
-              cared_enddate2021: userData.cared_enddate2021  || '',
-              symptomsdays2021: userData.fourdays  || '',
+              cared_enddate2021: userData.cared_enddate2021 || "",
+              symptomsdays2021: userData.fourdays || "",
 
+              minor_startdate2020: userData.minor_startdate2020 || "",
+              closure2020:
+                userData.minor_startdate2020 || userData.fivedays === "0"
+                  ? "Yes"
+                  : "" || "",
+              minor_enddate2020: userData.minor_enddate2020 || "",
+              minordays2020: userData.fivedays || "",
 
-              minor_startdate2020: userData.minor_startdate2020 || '',
-              closure2020: (userData.minor_startdate2020 || userData.fivedays === "0") ? 'Yes' : '' || '',
-              minor_enddate2020: userData.minor_enddate2020 || '',
-              minordays2020:userData.fivedays || '',
+              minor_enddate2021: userData.minor_enddate2021 || "",
+              closure2021:
+                userData.minor_enddate2021 || userData.sixdays === "0"
+                  ? "Yes"
+                  : "" || "",
+              minor_enddate2020: userData.minor_enddate2020 || "",
+              minordays2021: userData.sixdays || "",
 
-              minor_enddate2021: userData.minor_enddate2021 || '',
-              closure2021: (userData.minor_enddate2021 || userData.sixdays === "0") ? 'Yes' : '' || '',
-              minor_enddate2020: userData.minor_enddate2020 || '',
-              minordays2021:userData.sixdays || '',
+              employed_as_W2: userData.employed_as_W2 || "",
 
+              family_sick: userData.Family_Sick_Leave || "",
 
-              employed_as_W2: userData.employed_as_W2 || '',
+              amount2020: userData.amount2020 || "",
 
-              family_sick: userData.Family_Sick_Leave || '',
-
-              amount2020 : userData.amount2020 || '',
-
-              amount2021 : userData.amount2021 || '',
-
-
+              amount2021: userData.amount2021 || "",
             }));
             setSelectedFiles((prevSelectedFiles) => ({
               ...prevSelectedFiles,
@@ -1381,12 +1369,14 @@ const checkEmailAvailability = async () => {
 
               Tax_Return_2020: userData?.Tax_Return_2020,
               Tax_Return_2021: userData?.Tax_Return_2021,
-              supplemental_attachment_2020: userData?.supplemental_attachment_2020,
-              supplemental_attachment_2021: userData?.supplemental_attachment_2021,
+              supplemental_attachment_2020:
+                userData?.supplemental_attachment_2020,
+              supplemental_attachment_2021:
+                userData?.supplemental_attachment_2021,
               FormA1099: userData?.FormA1099,
               FormB1099: userData?.FormB1099,
               ks2020: userData?.ks2020,
-              ks22020: userData?.ks22020
+              ks22020: userData?.ks22020,
             }));
           } else {
             console.error("Error fetching user data");
@@ -1399,7 +1389,7 @@ const checkEmailAvailability = async () => {
 
     fetchUserData();
   }, []);
-  
+
   const fetchUserDataa = async () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -1410,11 +1400,11 @@ const checkEmailAvailability = async () => {
             Authorization: `Bearer ${token}`,
           },
         });
-  
+
         if (response.ok) {
           const userData = await response.json(); // Use await to wait for the JSON parsing
           setUserData(userData);
-  
+
           // ... (rest of the function remains unchanged)
         } else {
           console.error("Error fetching user data");
@@ -1424,26 +1414,22 @@ const checkEmailAvailability = async () => {
       }
     }
   };
-  
 
-
-  const openFileInNewTab =  (fileKey) => {
+  const openFileInNewTab = (fileKey) => {
     if (fileKey && userData) {
       const fileUrl = userData[fileKey];
       if (fileUrl) {
-        window.open(`http://localhost:5000/${fileUrl}`, '_blank');
+        window.open(`http://localhost:5000/${fileUrl}`, "_blank");
       } else {
-        console.error('File URL not found for the provided fileKey');
+        console.error("File URL not found for the provided fileKey");
       }
     } else {
-      console.error('Invalid fileKey or userData is missing');
+      console.error("Invalid fileKey or userData is missing");
     }
   };
- 
- 
-  const removeFile = async (fileKey) => {
 
-    alert(fileKey)
+  const removeFile = async (fileKey) => {
+    alert(fileKey);
     // const token = localStorage.getItem("token");
 
     // // Check if both token and fileKey are present
@@ -1460,7 +1446,7 @@ const checkEmailAvailability = async () => {
 
     //     const response = await fetch(url, {
     //         method: 'DELETE', // Change the method to DELETE
-    //         headers: { 
+    //         headers: {
     //             Authorization: `Bearer ${token}`, // Add the token to the headers
     //             'Content-Type': 'application/json'
     //         },
@@ -1472,7 +1458,7 @@ const checkEmailAvailability = async () => {
     //         await fetchUserDataa();
     //         setSelectedFiles((prevSelectedFiles) => ({
     //           ...prevSelectedFiles,
-    //           [fileKey]: null, 
+    //           [fileKey]: null,
     //         }));
     //         console.log('File removed successfully.');
     //     } else {
@@ -1481,47 +1467,49 @@ const checkEmailAvailability = async () => {
     // } catch (error) {
     //     console.error('Error removing file:', error);
     // }
-    
-};
-
-  
+  };
 
   const uploadFile = async (file, inputName) => {
     const token = localStorage.getItem("token");
-    
+
     if (file) {
       try {
         setUploadingFile(inputName); // Start showing progress for this file
-      
+
         const formData = new FormData();
-      
+
         formData.append(inputName, file);
-      
-        formData.append('step', 10);
-  
+
+        formData.append("step", 10);
+
         const config = {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
           onUploadProgress: (progressEvent) => {
-            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
             setUploadProgress((prevProgress) => ({
               ...prevProgress,
               [inputName]: percentCompleted,
             }));
           },
         };
-  
-        const response = await axios.put('http://localhost:5000/user/upload-form-data', formData, config);
-  
+
+        const response = await axios.put(
+          "http://localhost:5000/user/upload-form-data",
+          formData,
+          config
+        );
+
         console.log(`File uploaded successfully`, response.data.user);
         await fetchUserDataa();
-        
       } catch (error) {
         console.error(`Error uploading file:`, error);
       } finally {
-        setUploadingFile(''); // Stop showing progress for this file after upload completion or failure
+        setUploadingFile(""); // Stop showing progress for this file after upload completion or failure
         setUploadProgress((prevProgress) => ({
           ...prevProgress,
           [inputName]: 0, // Reset progress to 0
@@ -1529,7 +1517,6 @@ const checkEmailAvailability = async () => {
       }
     }
   };
-
 
   const getStepContent = () => {
     switch (activeStep) {
@@ -1545,13 +1532,13 @@ const checkEmailAvailability = async () => {
             error={!!errors.firstName}
             helperText={errors.firstName}
           /> */}
-            <div class="row justify-content-center pb-3">
-              <div class="col-lg-8">
+            <div class="row justify-content-center pb-3 ">
+              <div class="col-lg-6 col-md-8 col-sm-12">
                 <div
-                  class="step step-1 bg-white shadow  pb-5"
+                  class="step step-1 bg-white   pb-5 pt-5"
                   style={{ borderRadius: "20px" }}
                 >
-                  <h3
+                  {/* <h3
                     class="text-center mb-3 py-3 text-white"
                     style={{
                       backgroundColor: "rgb(13, 189, 243)",
@@ -1559,7 +1546,7 @@ const checkEmailAvailability = async () => {
                     }}
                   >
                     Getting Started
-                  </h3>
+                  </h3> */}
                   <div class="px-3">
                     {/* <div class="progress mb-4" style={{height: "15px"}}>
                   <div class="progress-bar" role="progressbar" style={{width: "0%"}} aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -1567,8 +1554,9 @@ const checkEmailAvailability = async () => {
                     <LinearProgress
                       variant="determinate"
                       sx={{
-                        height: "8px",
-                        borderRadius: "4px",
+                        height: "14px",
+                        borderRadius: "6px",
+                        marginBottom: 5,
                         backgroundColor: "#f0f0f0",
                         "& .MuiLinearProgress-bar": {
                           backgroundColor: "rgb(13, 189, 243);",
@@ -1582,13 +1570,79 @@ const checkEmailAvailability = async () => {
                       id="record_id"
                       value=""
                     />
+                    <div style={{ padding: "10px" }}>
+                      <h3
+                        style={{
+                          color: "black",
+                          marginBlock: "3px",
+                          fontWeight: 600,
+                          fontSize: "38px",
+                        }}
+                      >
+                        Estimate your potential employee retention credit amount
+                      </h3>
+                    </div>
+                    <div style={{ padding: "10px" }}>
+                      <p
+                        style={{
+                          color: "var(--bs-body-color)",
+                          marginBlock: "5px",
+                          fontSize: "16px",
+                        }}
+                      >
+                        This is for estimation purposes only. The actual credit
+                        is based off of documents submitted. Potential ERC
+                        amount is based off of a potential of 6 eligible
+                        quarters of the ERC program.
+                      </p>
+                    </div>
+                    <div style={{ padding: "10px" }}>
+                      <p
+                        style={{
+                          color: "var(--bs-body-color)",
+                          marginBlock: "5px",
+                          fontSize: "16px",
+                        }}
+                      >
+                        *If you have multiple companies, input and determine
+                        eligibility for each company separately.
+                      </p>
+                    </div>
+                    <div class="mb-2">
+                      <div class="col-sm-6 col-md-12">
+                        <label for="Business-Legal-Name" class="form-label">
+                          Legal Business Name
+                        </label>
 
+                        <input
+                          type="text"
+                          value={formData.bussinessName}
+                          class={` form-control ${
+                            errors.bussinessName ? "border-danger" : ""
+                          }`}
+                          id="Business-Legal-Name"
+                          placeholder=""
+                          name="bussinessName"
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.bussinessName && (
+                          <div
+                            className="text-danger"
+                            style={{ fontSize: "14px" }}
+                          >
+                            {errors.bussinessName}
+                          </div>
+                        )}
+                        <div class="invalid-feedback phoneError"></div>
+                      </div>
+                    </div>
                     <div class="row mt-4">
                       <label
                         for="id_first_name"
                         class="form-label requiredField"
                       >
-                        Self-Employed Owner's Name
+                        First Name
                       </label>
                       <div class="col-sm-6 mb-3">
                         <input
@@ -1669,41 +1723,46 @@ const checkEmailAvailability = async () => {
                         )}
                       </div>
                       <div id="div_id_email" class="col-sm-6 mb-3">
-  <label for="id_email" class="form-label requiredField">
-    Email
-  </label>
-  <input
-    value={formData.email}
-    type="email"
-    name="email"
-    maxLength="254"
-    placeholder="e.g. example@example.com"
-    class={`form-control ${
-      errors.email === "Email is available" ? "border-success text-success" : errors.email ? "border-danger" : ""
-    }`}
-    required=""
-    id="id_email"
-    onChange={handleInputChange}
-    onBlur={handleEmailBlur}
-  />
-  {errors.email && (
-    <div
-      className={errors.email === "Email is available" ? "text-success" : "text-danger"}
-      style={{ fontSize: "14px" }}
-    >
-      {errors.email}
-    </div>
-  )}
-</div>
-
-                    </div>
-
-                    <div class="mb-2">
-                      <div class="col-sm-6">
-                        <label for="Business-Legal-Name" class="form-label">
-                          Business Legal Name
+                        <label for="id_email" class="form-label requiredField">
+                          Email
                         </label>
-
+                        <input
+                          value={formData.email}
+                          type="email"
+                          name="email"
+                          maxLength="254"
+                          placeholder="e.g. example@example.com"
+                          class={`form-control ${
+                            errors.email === "Email is available"
+                              ? "border-success text-success"
+                              : errors.email
+                              ? "border-danger"
+                              : ""
+                          }`}
+                          required=""
+                          id="id_email"
+                          onChange={handleInputChange}
+                          onBlur={handleEmailBlur}
+                        />
+                        {errors.email && (
+                          <div
+                            className={
+                              errors.email === "Email is available"
+                                ? "text-success"
+                                : "text-danger"
+                            }
+                            style={{ fontSize: "14px" }}
+                          >
+                            {errors.email}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div class="mb-2">
+                      <div class="col-sm-12">
+                        <label for="Business-Legal-Name" class="form-label">
+                          Average full-time W-2 employee count in 2020
+                        </label>
                         <input
                           type="text"
                           value={formData.bussinessName}
@@ -1727,6 +1786,50 @@ const checkEmailAvailability = async () => {
                         <div class="invalid-feedback phoneError"></div>
                       </div>
                     </div>
+                    <div class="mb-2">
+                      <div class="col-sm-12">
+                        <label for="Business-Legal-Name" class="form-label">
+                          Average full-time W-2 employee count in 2021
+                        </label>
+                        <input
+                          type="text"
+                          value={formData.bussinessName}
+                          class={` form-control ${
+                            errors.bussinessName ? "border-danger" : ""
+                          }`}
+                          id="Business-Legal-Name"
+                          placeholder=""
+                          name="bussinessName"
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.bussinessName && (
+                          <div
+                            className="text-danger"
+                            style={{ fontSize: "14px" }}
+                          >
+                            {errors.bussinessName}
+                          </div>
+                        )}
+                        <div class="invalid-feedback phoneError"></div>
+                      </div>
+                    </div>
+
+                    <div class="potentiall">
+                      <Typography sx={{ fontSize: 18 }}>
+                        Potential ERC amount*
+                      </Typography>
+                      <span
+                        style={{
+                          fontSize: "4rem",
+                          fontWeight: 900,
+                          color: "#57cc99",
+                        }}
+                      >
+                        $0
+                      </span>
+                    </div>
+                    {/*
                     <div class="mb-2">
                       <div class="col-sm-6">
                         <label for="Trade-Name" class="form-label">
@@ -1899,8 +2002,8 @@ const checkEmailAvailability = async () => {
                           </div>
                         )}
                       </div>
-                    </div>
-                    <div class="impot mt-3">
+                    </div> */}
+                    {/* <div class="impot mt-3">
                       <p>
                         The address you provide above will be used as the
                         mailing address for your SETC refund check. If you meet
@@ -1911,11 +2014,17 @@ const checkEmailAvailability = async () => {
                         months. This will help guarantee accurate and timely
                         delivery to the correct address.
                       </p>
+                    </div> */}
+                    <div class="smaller text-muted mt-2">
+                      *This is an estimate only based on the employee counts
+                      entered and does not represent a guarantee of the credit
+                      amount you will receive, or that you will be determined
+                      eligible for the program.
                     </div>
-                    <div class="d-flex" style={{ alignItems: "center " }}>
+                    <div class="d-flex pb-4" style={{ alignItems: "start " }}>
                       <input
                         checked={formData.isChecked}
-                        class={`checkBoxStepOne form-check-input me-1 ${
+                        class={`checkBoxStepOne form-check-input me-1 mb-0 mt-3 ${
                           errors.isChecked ? "border-danger" : ""
                         }`}
                         type="checkbox"
@@ -1930,31 +2039,94 @@ const checkEmailAvailability = async () => {
                  </div>
                 )} */}
 
-                      <p>
-                        By checking the box, you agree to our{" "}
+                      <p className="text-muted mb-0">
+                        By checking the box and clicking “Let’s get started”
+                        below, you consent for ERC Specialists and their
+                        Affiliates to use automated technology, including calls,
+                        texts and prerecorded messages, to contact you at the
+                        number and email provided about business related offers.
+                        Up to 10 messages/month. Reply 'STOP' to opt-out at any
+                        time. Clicking the button below constitutes your
+                        electronic signature.{" "}
                         <a
                           href=""
                           data-bs-toggle="modal"
                           data-bs-target="#term_condition"
                         >
                           {" "}
-                          terms & conditions
+                          terms & privacy
                         </a>{" "}
-                        and will allow SETC Zone and its partners to contact you
-                        via phone, text, and/or email.
                       </p>
                     </div>
-                    <div class="d-flex justify-content-end">
+                    <div
+                      id="button-bar"
+                       class="d-flex border-top button-bar justify-content-between align-items-center flex-column flex-sm-row pt-4  "
+                    >
                       <button
-                        onClick={handleNext}
                         type="button"
-                        class="px-3 py-2 next-step"
+                        class="btn btn-back px-0 d-none"
+                        name="back"
+                        value="back"
+                        id="back-button"
                       >
-                        {activeStep === steps.length - 1
-                          ? "Submit"
-                          : "Lets Get Started"}
+                        <div class="d-flex align-items-center justify-content-center">
+                          <i
+                            class="fa-light fa-chevron-left me-2"
+                            style={{ fontSize: "12px", fontWeight: "bold" }}
+                          ></i>
+                          Back
+                        </div>
                       </button>
+                      <div
+                        id="testing-switch-wrapper"
+                        class="form-check form-switch mb-3 mb-sm-0 "
+                      >
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          role="switch"
+                          name="test"
+                          id="testing-switch"
+                        ></input>
+                        <label class="form-check-label" for="testing-switch">
+                          I’m just testing, don’t submit my application
+                        </label>
+                      </div>
+                      <div id="new-button" class="w-100 text-center d-none">
+                        <a
+                          href="/application/new"
+                          class="btn btn-primary"
+                          name="next"
+                          value="next"
+                        >
+                          Start a{" "}
+                          <span class="text-decoration-underline">new</span>{" "}
+                          application
+                        </a>
+                      </div>
+                      <div class="d-flex flex-column flex-sm-row justify-content-end button-bar-right">
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary  d-none"
+                          name="skip"
+                          value="skip"
+                          id="skip-button"
+                        >
+                          Skip for now
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleNext}
+                          class="px-3 py-2 next-step"
+                          name="next"
+                          value="next"
+                          id="next-button"
+                        >
+                          Let's get started
+                        </button>
+                      </div>
                     </div>
+                   
                   </div>
                 </div>
               </div>
@@ -2064,7 +2236,6 @@ const checkEmailAvailability = async () => {
                             <button
                               onClick={handlePrevious}
                               type="button"
-                             
                               class="px-3 py-2 prev-step"
                             >
                               Previous
@@ -2432,10 +2603,12 @@ const checkEmailAvailability = async () => {
                                 id="business_negatively_impacted"
                               />
                               Yes */}
-                               <input
+                              <input
                                 className="form-check-input"
                                 class={`form-check-input ${
-                                  errors.bussinessNegatively ? "border-danger" : ""
+                                  errors.bussinessNegatively
+                                    ? "border-danger"
+                                    : ""
                                 }`}
                                 type="radio"
                                 name="bussinessNegatively"
@@ -2457,9 +2630,11 @@ const checkEmailAvailability = async () => {
                                 value="No"
                               />
                               No */}
-                               <input
+                              <input
                                 class={`form-check-input ${
-                                  errors.bussinessNegatively ? "border-danger" : ""
+                                  errors.bussinessNegatively
+                                    ? "border-danger"
+                                    : ""
                                 }`}
                                 type="radio"
                                 name="bussinessNegatively"
@@ -2469,20 +2644,18 @@ const checkEmailAvailability = async () => {
                                 onChange={handleInputChange}
                               />
                               No
-
                             </p>
                           </div>
                           {formData.bussinessNegatively === "No" &&
                             activeErrorQualifyTwo && (
                               <div>
                                 <h4 style={{ color: "#e62e2d" }}>
-                                Unfortunately you are not eligible for this tax
-                              created, you must have experienced negative impact
-                              during 2020 and/or 2021.
+                                  Unfortunately you are not eligible for this
+                                  tax created, you must have experienced
+                                  negative impact during 2020 and/or 2021.
                                 </h4>
                               </div>
                             )}
-                          
 
                           <h5 class="mt-2 mb-4">
                             Almost every American was negatively impacted by
@@ -2596,124 +2769,136 @@ const checkEmailAvailability = async () => {
                             quarantine, underwent testing, and took time off in
                             2020?
                           </label>
-                          
 
-                            {/* Here we showing options */}
+                          {/* Here we showing options */}
 
-                       <div style={{display: 'flex', flexDirection: 'row'}}>
-                          <div class="optio mb-2">
-                            <p>
-                              <input
-                                className="form-check-input"
-                                class={`form-check-input ${
-                                  errors.personallySick2020 ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="personallySick2020"
-                                checked={formData.personallySick2020 === "Yes"}
-                                value="Yes"
-                                // id="self_employed_from_yes"
-                                onChange={handleInputChange}
-                              />
-                              Yes
-                            </p>
-                          </div>
-                          <div class="optio">
-                            <p>
-                              <input
-                                class={`form-check-input ${
-                                  errors.personallySick2020 ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="personallySick2020"
-                                value="No"
-                                checked={formData.personallySick2020 === "No"}
-                                // id="self_employed_from_no"
-                                onChange={handleInputChange}
-                              />
-                              No
-                            </p>
-                          </div>
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <div class="optio mb-2">
+                              <p>
+                                <input
+                                  className="form-check-input"
+                                  class={`form-check-input ${
+                                    errors.personallySick2020
+                                      ? "border-danger"
+                                      : ""
+                                  }`}
+                                  type="radio"
+                                  name="personallySick2020"
+                                  checked={
+                                    formData.personallySick2020 === "Yes"
+                                  }
+                                  value="Yes"
+                                  // id="self_employed_from_yes"
+                                  onChange={handleInputChange}
+                                />
+                                Yes
+                              </p>
+                            </div>
+                            <div class="optio">
+                              <p>
+                                <input
+                                  class={`form-check-input ${
+                                    errors.personallySick2020
+                                      ? "border-danger"
+                                      : ""
+                                  }`}
+                                  type="radio"
+                                  name="personallySick2020"
+                                  value="No"
+                                  checked={formData.personallySick2020 === "No"}
+                                  // id="self_employed_from_no"
+                                  onChange={handleInputChange}
+                                />
+                                No
+                              </p>
+                            </div>
                           </div>
 
                           {formData.personallySick2020 === "Yes" && (
-
-                          <div class="row">
-              
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label
-                                  for="personal_startdate2020"
-                                  class="form-label fs-6"
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label
+                                    for="personal_startdate2020"
+                                    class="form-label fs-6"
+                                  >
+                                    Start
+                                  </label>
+                                  <input
+                                    type="date"
+                                    min="2020-04-01"
+                                    max="2020-12-31"
+                                    // className="date-picker"
+                                    className={` date-picker ${
+                                      errors.personal_startdate2020
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="personal_startdate2020"
+                                    name="personal_startdate2020"
+                                    value={formData.personal_startdate2020}
+                                    onChange={handleInputChange}
+                                    disabled={formData.numberOfDays === "0"}
+                                  />{" "}
+                                </div>
+                              </div>
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label
+                                    for="personal_enddate2020"
+                                    class="form-label fs-6"
+                                  >
+                                    End
+                                  </label>
+                                  <input
+                                    type="date"
+                                    min="2020-04-01"
+                                    max="2020-12-31"
+                                    className={` date-picker ${
+                                      errors.personal_enddate2020
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="personal_enddate2020"
+                                    name="personal_enddate2020"
+                                    value={formData.personal_enddate2020}
+                                    onChange={handleInputChange}
+                                    disabled={formData.numberOfDays === "0"}
+                                  />
+                                </div>
+                              </div>
+                              {formData.numberOfDays === "0" && (
+                                <p
+                                  style={{
+                                    color: "rgb(255, 149, 0)",
+                                    fontFamily: "sans-serif",
+                                    fontSize: 15,
+                                  }}
                                 >
-                                  Start
-                                </label>
-                                <input
-                                  type="date"
-                                  min="2020-04-01"
-                                  max="2020-12-31"
-                                  // className="date-picker"
-                                  className={` date-picker ${
-                                    errors.personal_startdate2020
-                                      ? "border-danger"
-                                      : ""
-                                  }`}
-                                  id="personal_startdate2020"
-                                  name="personal_startdate2020"
-                                  value={formData.personal_startdate2020}
-                                  onChange={handleInputChange}
-                                  disabled={formData.numberOfDays === "0"}
-                                />{" "}
+                                  Start and end date is not significant for days
+                                  zero.
+                                </p>
+                              )}
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label for="1days" class="form-label fs-6">
+                                    Number of days:
+                                  </label>
+                                  <input
+                                    type="number"
+                                    className={` date-picker ${
+                                      errors.numberOfDays ? "border-danger" : ""
+                                    }`}
+                                    id="1days"
+                                    name="numberOfDays"
+                                    value={formData.numberOfDays}
+                                    onChange={handleInputChange}
+                                  />
+                                </div>
                               </div>
                             </div>
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label
-                                  for="personal_enddate2020"
-                                  class="form-label fs-6"
-                                >
-                                  End
-                                </label>
-                                <input
-                                  type="date"
-                                  min="2020-04-01"
-                                  max="2020-12-31"
-                                  className={` date-picker ${
-                                    errors.personal_enddate2020
-                                      ? "border-danger"
-                                      : ""
-                                  }`}
-                                  id="personal_enddate2020"
-                                  name="personal_enddate2020"
-                                  value={formData.personal_enddate2020}
-                                  onChange={handleInputChange}
-                                  disabled={formData.numberOfDays === "0"}
-                                />
-                              </div>
-                            </div>
-                            {formData.numberOfDays === "0" && (
-                              <p style={{color: 'rgb(255, 149, 0)', fontFamily: 'sans-serif', fontSize: 15}}>
-                                Start and end date is not significant for days zero.
-                              </p>
-                            )}
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label for="1days" class="form-label fs-6">
-                                  Number of days:
-                                </label>
-                                <input
-                                  type="number"
-                                  className={` date-picker ${
-                                    errors.numberOfDays ? "border-danger" : ""
-                                  }`}
-                                  id="1days"
-                                  name="numberOfDays"
-                                  value={formData.numberOfDays}
-                                  onChange={handleInputChange}
-                                />
-                              </div>
-                            </div>
-                          </div>
                           )}
                           <label for="Self-employed" class="form-label fs-5">
                             How many days were you personally sick with Covid,
@@ -2722,121 +2907,137 @@ const checkEmailAvailability = async () => {
                             2021?
                           </label>
 
-                          <div style={{display: 'flex', flexDirection: 'row'}}>
-                          <div class="optio mb-2">
-                            <p>
-                              <input
-                                className="form-check-input"
-                                class={`form-check-input ${
-                                  errors.personallySick2021 ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="personallySick2021"
-                                checked={formData.personallySick2021 === "Yes"}
-                                value="Yes"
-                                // id="self_employed_from_yes"
-                                onChange={handleInputChange}
-                              />
-                              Yes
-                            </p>
-                          </div>
-                          <div class="optio">
-                            <p>
-                              <input
-                                class={`form-check-input ${
-                                  errors.personallySick2021 ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="personallySick2021"
-                                value="No"
-                                checked={formData.personallySick2021 === "No"}
-                                // id="self_employed_from_no"
-                                onChange={handleInputChange}
-                              />
-                              No
-                            </p>
-                          </div>
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <div class="optio mb-2">
+                              <p>
+                                <input
+                                  className="form-check-input"
+                                  class={`form-check-input ${
+                                    errors.personallySick2021
+                                      ? "border-danger"
+                                      : ""
+                                  }`}
+                                  type="radio"
+                                  name="personallySick2021"
+                                  checked={
+                                    formData.personallySick2021 === "Yes"
+                                  }
+                                  value="Yes"
+                                  // id="self_employed_from_yes"
+                                  onChange={handleInputChange}
+                                />
+                                Yes
+                              </p>
+                            </div>
+                            <div class="optio">
+                              <p>
+                                <input
+                                  class={`form-check-input ${
+                                    errors.personallySick2021
+                                      ? "border-danger"
+                                      : ""
+                                  }`}
+                                  type="radio"
+                                  name="personallySick2021"
+                                  value="No"
+                                  checked={formData.personallySick2021 === "No"}
+                                  // id="self_employed_from_no"
+                                  onChange={handleInputChange}
+                                />
+                                No
+                              </p>
+                            </div>
                           </div>
 
                           {formData.personallySick2021 === "Yes" && (
-                          <div class="row">
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label
-                                  for="personal_startdate2021"
-                                  class="form-label fs-6"
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label
+                                    for="personal_startdate2021"
+                                    class="form-label fs-6"
+                                  >
+                                    Start
+                                  </label>
+                                  <input
+                                    type="date"
+                                    min="2021-01-01"
+                                    max="2021-09-30"
+                                    className={` date-picker ${
+                                      errors.personal_startdate2021
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="personal_startdate2021"
+                                    name="personal_startdate2021"
+                                    value={formData.personal_startdate2021}
+                                    onChange={handleInputChange}
+                                    disabled={formData.numberOfDays2021 === "0"}
+                                  />{" "}
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label
+                                    for="personal_enddate2021"
+                                    class="form-label fs-6"
+                                  >
+                                    End
+                                  </label>
+
+                                  <input
+                                    type="date"
+                                    min="2021-01-01"
+                                    max="2021-09-30"
+                                    className={` date-picker ${
+                                      errors.personal_enddate2021
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="personal_enddate2021"
+                                    name="personal_enddate2021"
+                                    value={formData.personal_enddate2021}
+                                    onChange={handleInputChange}
+                                    disabled={formData.numberOfDays2021 === "0"}
+                                  />
+                                </div>
+                              </div>
+                              {formData.numberOfDays2021 === "0" && (
+                                <p
+                                  style={{
+                                    color: "rgb(255, 149, 0)",
+                                    fontFamily: "sans-serif",
+                                    fontSize: 15,
+                                  }}
                                 >
-                                  Start
-                                </label>
-                               
-                                <input
-                                  type="date"
-                                  min="2021-01-01"
-                                  max="2021-09-30"
-                                  className={` date-picker ${
-                                    errors.personal_startdate2021
-                                      ? "border-danger"
-                                      : ""
-                                  }`}
-                                  id="personal_startdate2021"
-                                  name="personal_startdate2021"
-                                  value={formData.personal_startdate2021}
-                                  onChange={handleInputChange}
-                                  disabled={formData.numberOfDays2021 === "0"}
-                                />{" "}
+                                  Start and end date is not significant for days
+                                  zero.
+                                </p>
+                              )}
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label for="2days" class="form-label fs-6">
+                                    Number of days:
+                                  </label>
+
+                                  <input
+                                    type="number"
+                                    class={` date-picker ${
+                                      errors.numberOfDays2021
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="2days"
+                                    name="numberOfDays2021"
+                                    value={formData.numberOfDays2021}
+                                    onChange={handleInputChange}
+                                  />
+                                </div>
                               </div>
                             </div>
-                           
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label
-                                  for="personal_enddate2021"
-                                  class="form-label fs-6"
-                                >
-                                  End
-                                </label>
-                             
-                                <input
-                                  type="date"
-                                  min="2021-01-01"
-                                  max="2021-09-30"
-                                  className={` date-picker ${
-                                    errors.personal_enddate2021
-                                      ? "border-danger"
-                                      : ""
-                                  }`}
-                                  id="personal_enddate2021"
-                                  name="personal_enddate2021"
-                                  value={formData.personal_enddate2021}
-                                  onChange={handleInputChange}
-                                  disabled={formData.numberOfDays2021 === "0"}
-                                />
-                              </div>
-                            </div>
-                            {formData.numberOfDays2021 === "0" && (
-                              <p style={{color: 'rgb(255, 149, 0)', fontFamily: 'sans-serif',  fontSize: 15}}>
-                             Start and end date is not significant for days zero.                
-                              </p>
-                            )}
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label for="2days" class="form-label fs-6">
-                                  Number of days:
-                                </label>
-                               
-                                 <input
-                                  type="number"
-                                  class={` date-picker ${
-                                    errors.numberOfDays2021 ? "border-danger" : ""
-                                  }`}
-                                  id="2days"
-                                  name="numberOfDays2021"
-                                  value={formData.numberOfDays2021}
-                                  onChange={handleInputChange}
-                                />
-                              </div>
-                            </div>
-                          </div>
                           )}
                           <div class="d-flex justify-content-end mt-3">
                             <button
@@ -2929,54 +3130,55 @@ const checkEmailAvailability = async () => {
                             time off in 2020?
                           </label>
 
-
-                          <div style={{display: 'flex', flexDirection: 'row'}}>
-                          <div class="optio mb-2">
-                            <p>
-                              <input
-                                className="form-check-input"
-                                class={`form-check-input ${
-                                  errors.symptoms2020 ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="symptoms2020"
-                                checked={formData.symptoms2020 === "Yes"}
-                                value="Yes"
-                                // id="self_employed_from_yes"
-                                onChange={handleInputChange}
-                              />
-                              Yes
-                            </p>
-                          </div>
-                          <div class="optio">
-                            <p>
-                              <input
-                                class={`form-check-input ${
-                                  errors.symptoms2020 ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="symptoms2020"
-                                value="No"
-                                checked={formData.symptoms2020 === "No"}
-                                // id="self_employed_from_no"
-                                onChange={handleInputChange}
-                              />
-                              No
-                            </p>
-                          </div>
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <div class="optio mb-2">
+                              <p>
+                                <input
+                                  className="form-check-input"
+                                  class={`form-check-input ${
+                                    errors.symptoms2020 ? "border-danger" : ""
+                                  }`}
+                                  type="radio"
+                                  name="symptoms2020"
+                                  checked={formData.symptoms2020 === "Yes"}
+                                  value="Yes"
+                                  // id="self_employed_from_yes"
+                                  onChange={handleInputChange}
+                                />
+                                Yes
+                              </p>
+                            </div>
+                            <div class="optio">
+                              <p>
+                                <input
+                                  class={`form-check-input ${
+                                    errors.symptoms2020 ? "border-danger" : ""
+                                  }`}
+                                  type="radio"
+                                  name="symptoms2020"
+                                  value="No"
+                                  checked={formData.symptoms2020 === "No"}
+                                  // id="self_employed_from_no"
+                                  onChange={handleInputChange}
+                                />
+                                No
+                              </p>
+                            </div>
                           </div>
 
                           {formData.symptoms2020 === "Yes" && (
-                          <div class="row">
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label
-                                  for="cared_startdate2020"
-                                  class="form-label fs-6"
-                                >
-                                  Start
-                                </label>
-                                {/* <input
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label
+                                    for="cared_startdate2020"
+                                    class="form-label fs-6"
+                                  >
+                                    Start
+                                  </label>
+                                  {/* <input
                                   type="date"
                                   min="2020-04-01"
                                   max="2020-12-31"
@@ -2985,75 +3187,83 @@ const checkEmailAvailability = async () => {
                                   name="cared_startdate2020"
                                 />
                               </div> */}
-                               <input
-                                  type="date"
-                                  min="2020-04-01"
-                                  max="2020-12-31"
-                                  // className="date-picker"
-                                  className={` date-picker ${
-                                    errors.cared_startdate2020
-                                      ? "border-danger"
-                                      : ""
-                                  }`}
-                                  id="cared_startdate2020"
-                                  name="cared_startdate2020"
-                                  value={formData.cared_startdate2020}
-                                  onChange={handleInputChange}
-                                  disabled={formData.symptomsdays2020 === "0"}
-                                />{" "}
+                                  <input
+                                    type="date"
+                                    min="2020-04-01"
+                                    max="2020-12-31"
+                                    // className="date-picker"
+                                    className={` date-picker ${
+                                      errors.cared_startdate2020
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="cared_startdate2020"
+                                    name="cared_startdate2020"
+                                    value={formData.cared_startdate2020}
+                                    onChange={handleInputChange}
+                                    disabled={formData.symptomsdays2020 === "0"}
+                                  />{" "}
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label
-                                  for="cared_enddate2020"
-                                  class="form-label fs-6"
+                              </div>
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label
+                                    for="cared_enddate2020"
+                                    class="form-label fs-6"
+                                  >
+                                    End
+                                  </label>
+                                  <input
+                                    type="date"
+                                    min="2020-04-01"
+                                    max="2020-12-31"
+                                    // className="date-picker"
+                                    className={` date-picker ${
+                                      errors.cared_enddate2020
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="cared_enddate2020"
+                                    name="cared_enddate2020"
+                                    value={formData.cared_enddate2020}
+                                    onChange={handleInputChange}
+                                    disabled={formData.symptomsdays2020 === "0"}
+                                  />{" "}
+                                </div>
+                              </div>
+                              {formData.symptomsdays2020 === "0" && (
+                                <p
+                                  style={{
+                                    color: "rgb(255, 149, 0)",
+                                    fontFamily: "sans-serif",
+                                    fontSize: 15,
+                                  }}
                                 >
-                                  End
-                                </label>
-                              
-                                 <input
-                                  type="date"
-                                  min="2020-04-01"
-                                  max="2020-12-31"
-                                  // className="date-picker"
-                                  className={` date-picker ${
-                                    errors.cared_enddate2020
-                                      ? "border-danger"
-                                      : ""
-                                  }`}
-                                  id="cared_enddate2020"
-                                  name="cared_enddate2020"
-                                  value={formData.cared_enddate2020}
-                                  onChange={handleInputChange}
-                                  disabled={formData.symptomsdays2020 === "0"}
-                                />{" "}
+                                  Start and end date is not significant for days
+                                  zero.
+                                </p>
+                              )}
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label for="3days" class="form-label fs-6">
+                                    Number of days:
+                                  </label>
+
+                                  <input
+                                    type="number"
+                                    className={` date-picker ${
+                                      errors.symptomsdays2020
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="3days"
+                                    name="symptomsdays2020"
+                                    value={formData.symptomsdays2020}
+                                    onChange={handleInputChange}
+                                  />
+                                </div>
                               </div>
                             </div>
-                            {formData.symptomsdays2020 === "0" && (
-                              <p style={{color: 'rgb(255, 149, 0)', fontFamily: 'sans-serif', fontSize: 15}}>
-                                Start and end date is not significant for days zero.
-                              </p>
-                            )}
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label for="3days" class="form-label fs-6">
-                                  Number of days:
-                                </label>
-                                
-                                 <input
-                                  type="number"
-                                  className={` date-picker ${
-                                    errors.symptomsdays2020 ? "border-danger" : ""
-                                  }`}
-                                  id="3days"
-                                  name="symptomsdays2020"
-                                  value={formData.symptomsdays2020}
-                                  onChange={handleInputChange}
-                                />
-                              </div>
-                            </div>
-                          </div>
                           )}
 
                           <label for="Self-employed" class="form-label fs-5">
@@ -3062,54 +3272,55 @@ const checkEmailAvailability = async () => {
                             needed to quarantine, underwent testing, and took
                             time off in 2021?
                           </label>
-                          <div style={{display: 'flex', flexDirection: 'row'}}>
-                          <div class="optio mb-2">
-                            <p>
-                              <input
-                                className="form-check-input"
-                                class={`form-check-input ${
-                                  errors.symptoms2021 ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="symptoms2021"
-                                checked={formData.symptoms2021 === "Yes"}
-                                value="Yes"
-                                // id="self_employed_from_yes"
-                                onChange={handleInputChange}
-                              />
-                              Yes
-                            </p>
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <div class="optio mb-2">
+                              <p>
+                                <input
+                                  className="form-check-input"
+                                  class={`form-check-input ${
+                                    errors.symptoms2021 ? "border-danger" : ""
+                                  }`}
+                                  type="radio"
+                                  name="symptoms2021"
+                                  checked={formData.symptoms2021 === "Yes"}
+                                  value="Yes"
+                                  // id="self_employed_from_yes"
+                                  onChange={handleInputChange}
+                                />
+                                Yes
+                              </p>
+                            </div>
+                            <div class="optio">
+                              <p>
+                                <input
+                                  class={`form-check-input ${
+                                    errors.symptoms2021 ? "border-danger" : ""
+                                  }`}
+                                  type="radio"
+                                  name="symptoms2021"
+                                  value="No"
+                                  checked={formData.symptoms2021 === "No"}
+                                  // id="self_employed_from_no"
+                                  onChange={handleInputChange}
+                                />
+                                No
+                              </p>
+                            </div>
                           </div>
-                          <div class="optio">
-                            <p>
-                              <input
-                                class={`form-check-input ${
-                                  errors.symptoms2021 ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="symptoms2021"
-                                value="No"
-                                checked={formData.symptoms2021 === "No"}
-                                // id="self_employed_from_no"
-                                onChange={handleInputChange}
-                              />
-                              No
-                            </p>
-                          </div>
-                          </div>
-
 
                           {formData.symptoms2021 === "Yes" && (
-                          <div class="row">
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label
-                                  for="cared_startdate2021"
-                                  class="form-label fs-6"
-                                >
-                                  Start
-                                </label>
-                                {/* <input
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label
+                                    for="cared_startdate2021"
+                                    class="form-label fs-6"
+                                  >
+                                    Start
+                                  </label>
+                                  {/* <input
                                   type="date"
                                   min="2021-01-01"
                                   max="2021-09-30"
@@ -3117,33 +3328,34 @@ const checkEmailAvailability = async () => {
                                   id="cared_startdate2021"
                                   name="cared_startdate2021"
                                 /> */}
-                                <input
-                                  type="date"
-                                  min="2021-01-01"
-                                  max="2021-09-30"
-                                  // className="date-picker"
-                                  className={` date-picker ${
-                                    errors.cared_startdate2021  && formData.symptomsdays2021 !== "0"
-                                      ? "border-danger"
-                                      : ""
-                                  }`}
-                                  id="cared_startdate2021"
-                                  name="cared_startdate2021"
-                                  value={formData.cared_startdate2021}
-                                  onChange={handleInputChange}
-                                  disabled={formData.symptomsdays2021 === "0"}
-                                />{" "}
+                                  <input
+                                    type="date"
+                                    min="2021-01-01"
+                                    max="2021-09-30"
+                                    // className="date-picker"
+                                    className={` date-picker ${
+                                      errors.cared_startdate2021 &&
+                                      formData.symptomsdays2021 !== "0"
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="cared_startdate2021"
+                                    name="cared_startdate2021"
+                                    value={formData.cared_startdate2021}
+                                    onChange={handleInputChange}
+                                    disabled={formData.symptomsdays2021 === "0"}
+                                  />{" "}
+                                </div>
                               </div>
-                            </div>
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label
-                                  for="cared_enddate2021"
-                                  class="form-label fs-6"
-                                >
-                                  End
-                                </label>
-                                {/* <input
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label
+                                    for="cared_enddate2021"
+                                    class="form-label fs-6"
+                                  >
+                                    End
+                                  </label>
+                                  {/* <input
                                   type="date"
                                   min="2021-01-01"
                                   max="2021-09-30"
@@ -3152,54 +3364,64 @@ const checkEmailAvailability = async () => {
                                   name="cared_enddate2021"
                                 /> */}
                                   <input
-                                  type="date"
-                                  min="2021-01-01"
-                                  max="2021-09-30"
-                                  // className="date-picker"
-                                  className={` date-picker ${
-                                    errors.cared_enddate2021 &&  formData.symptomsdays2021 !== "0"
-                                      ? "border-danger"
-                                      : ""
-                                  }`}
-                                  id="cared_enddate2021"
-                                  name="cared_enddate2021"
-                                  value={formData.cared_enddate2021}
-                                  onChange={handleInputChange}
-                                  disabled={formData.symptomsdays2021 === "0"}
-                                />{" "}
+                                    type="date"
+                                    min="2021-01-01"
+                                    max="2021-09-30"
+                                    // className="date-picker"
+                                    className={` date-picker ${
+                                      errors.cared_enddate2021 &&
+                                      formData.symptomsdays2021 !== "0"
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="cared_enddate2021"
+                                    name="cared_enddate2021"
+                                    value={formData.cared_enddate2021}
+                                    onChange={handleInputChange}
+                                    disabled={formData.symptomsdays2021 === "0"}
+                                  />{" "}
+                                </div>
                               </div>
-                            </div>
 
-                            {formData.symptomsdays2021 === "0" && (
-                              <p style={{color: 'rgb(255, 149, 0)', fontFamily: 'sans-serif', fontSize: 15}}>
-                                Start and end date is not significant for days zero.
-                              </p>
-                            )}
+                              {formData.symptomsdays2021 === "0" && (
+                                <p
+                                  style={{
+                                    color: "rgb(255, 149, 0)",
+                                    fontFamily: "sans-serif",
+                                    fontSize: 15,
+                                  }}
+                                >
+                                  Start and end date is not significant for days
+                                  zero.
+                                </p>
+                              )}
 
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label for="4days" class="form-label fs-6">
-                                  Number of days:
-                                </label>
-                                {/* <input
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label for="4days" class="form-label fs-6">
+                                    Number of days:
+                                  </label>
+                                  {/* <input
                                   type="number"
                                   class="date-picker"
                                   id="4days"
                                   name="4days"
                                 /> */}
-                                 <input
-                                  type="number"
-                                  className={` date-picker ${
-                                    errors.symptomsdays2021 ? "border-danger" : ""
-                                  }`}
-                                  id="4days"
-                                  name="symptomsdays2021"
-                                  value={formData.symptomsdays2021}
-                                  onChange={handleInputChange}
-                                />
+                                  <input
+                                    type="number"
+                                    className={` date-picker ${
+                                      errors.symptomsdays2021
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="4days"
+                                    name="symptomsdays2021"
+                                    value={formData.symptomsdays2021}
+                                    onChange={handleInputChange}
+                                  />
+                                </div>
                               </div>
                             </div>
-                          </div>
                           )}
 
                           <div class="d-flex justify-content-end mt-3">
@@ -3306,54 +3528,55 @@ const checkEmailAvailability = async () => {
                             </span>
                           </label>
 
-
-                          <div style={{display: 'flex', flexDirection: 'row'}}>
-                          <div class="optio mb-2">
-                            <p>
-                              <input
-                                className="form-check-input"
-                                class={`form-check-input ${
-                                  errors.closure2020 ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="closure2020"
-                                checked={formData.closure2020 === "Yes"}
-                                value="Yes"
-                                // id="self_employed_from_yes"
-                                onChange={handleInputChange}
-                              />
-                              Yes
-                            </p>
-                          </div>
-                          <div class="optio">
-                            <p>
-                              <input
-                                class={`form-check-input ${
-                                  errors.closure2020 ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="closure2020"
-                                value="No"
-                                checked={formData.closure2020 === "No"}
-                                // id="self_employed_from_no"
-                                onChange={handleInputChange}
-                              />
-                              No
-                            </p>
-                          </div>
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <div class="optio mb-2">
+                              <p>
+                                <input
+                                  className="form-check-input"
+                                  class={`form-check-input ${
+                                    errors.closure2020 ? "border-danger" : ""
+                                  }`}
+                                  type="radio"
+                                  name="closure2020"
+                                  checked={formData.closure2020 === "Yes"}
+                                  value="Yes"
+                                  // id="self_employed_from_yes"
+                                  onChange={handleInputChange}
+                                />
+                                Yes
+                              </p>
+                            </div>
+                            <div class="optio">
+                              <p>
+                                <input
+                                  class={`form-check-input ${
+                                    errors.closure2020 ? "border-danger" : ""
+                                  }`}
+                                  type="radio"
+                                  name="closure2020"
+                                  value="No"
+                                  checked={formData.closure2020 === "No"}
+                                  // id="self_employed_from_no"
+                                  onChange={handleInputChange}
+                                />
+                                No
+                              </p>
+                            </div>
                           </div>
 
                           {formData.closure2020 === "Yes" && (
-                          <div class="row">
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label
-                                  for="minor_startdate2020"
-                                  class="form-label fs-6"
-                                >
-                                  Start
-                                </label>
-                                {/* <input
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label
+                                    for="minor_startdate2020"
+                                    class="form-label fs-6"
+                                  >
+                                    Start
+                                  </label>
+                                  {/* <input
                                   type="date"
                                   min="2020-04-01"
                                   max="2020-12-31"
@@ -3361,34 +3584,33 @@ const checkEmailAvailability = async () => {
                                   id="minor_startdate2020"
                                   name="minor_startdate2020"
                                 /> */}
-
-                                <input
-                                 type="date"
-                                 min="2020-04-01"
-                                 max="2020-12-31" 
-                                  // className="date-picker"
-                                  className={` date-picker ${
-                                    errors.minor_startdate2020
-                                      ? "border-danger"
-                                      : ""
-                                  }`}
-                                  id="minor_startdate2020"
-                                  name="minor_startdate2020"
-                                  value={formData.minor_startdate2020}
-                                  onChange={handleInputChange}
-                                  disabled={formData.minordays2020 === "0"}
-                                />{" "}
+                                  <input
+                                    type="date"
+                                    min="2020-04-01"
+                                    max="2020-12-31"
+                                    // className="date-picker"
+                                    className={` date-picker ${
+                                      errors.minor_startdate2020
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="minor_startdate2020"
+                                    name="minor_startdate2020"
+                                    value={formData.minor_startdate2020}
+                                    onChange={handleInputChange}
+                                    disabled={formData.minordays2020 === "0"}
+                                  />{" "}
+                                </div>
                               </div>
-                            </div>
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label
-                                  for="minor_enddate2020"
-                                  class="form-label fs-6"
-                                >
-                                  End
-                                </label>
-                                {/* <input
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label
+                                    for="minor_enddate2020"
+                                    class="form-label fs-6"
+                                  >
+                                    End
+                                  </label>
+                                  {/* <input
                                   type="date"
                                   min="2020-04-01"
                                   max="2020-12-31"
@@ -3397,59 +3619,67 @@ const checkEmailAvailability = async () => {
                                   name="minor_enddate2020"
                                 />
                                  */}
-                                <input
-                                  type="date"
-                                  min="2020-04-01"
-                                  max="2020-12-31"
-                                  // className="date-picker"
-                                  className={` date-picker ${
-                                    errors.minor_enddate2020
-                                      ? "border-danger"
-                                      : ""
-                                  }`}
-                                  id="minor_enddate2020"
-                                  name="minor_enddate2020"
-                                  value={formData.minor_enddate2020}
-                                  onChange={handleInputChange}
-                                  disabled={formData.minordays2020 === "0"}
-                                />{" "}
+                                  <input
+                                    type="date"
+                                    min="2020-04-01"
+                                    max="2020-12-31"
+                                    // className="date-picker"
+                                    className={` date-picker ${
+                                      errors.minor_enddate2020
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="minor_enddate2020"
+                                    name="minor_enddate2020"
+                                    value={formData.minor_enddate2020}
+                                    onChange={handleInputChange}
+                                    disabled={formData.minordays2020 === "0"}
+                                  />{" "}
+                                </div>
                               </div>
-                            </div>
 
-                            {formData.minordays2020 === "0" && (
-                              <p style={{color: 'rgb(255, 149, 0)', fontFamily: 'sans-serif', fontSize: 15}}>
-                                Start and end date is not significant for days zero.
-                              </p>
-                            )}
+                              {formData.minordays2020 === "0" && (
+                                <p
+                                  style={{
+                                    color: "rgb(255, 149, 0)",
+                                    fontFamily: "sans-serif",
+                                    fontSize: 15,
+                                  }}
+                                >
+                                  Start and end date is not significant for days
+                                  zero.
+                                </p>
+                              )}
 
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label for="5days" class="form-label fs-6">
-                                  Number of days:
-                                </label>
-                                {/* <input
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label for="5days" class="form-label fs-6">
+                                    Number of days:
+                                  </label>
+                                  {/* <input
                                   type="number"
                                   placeholder="(50 days max)"
                                   class="date-picker"
                                   id="5days"
                                   name="5days"
                                 /> */}
-                                 <input
-                                  type="number"
-                                  placeholder="(50 days max)"
-                                  className={` date-picker ${
-                                    errors.minordays2020 ? "border-danger" : ""
-                                  }`}
-                                  id="5days"
-                                  name="minordays2020"
-                                  value={formData.minordays2020}
-                                  onChange={handleInputChange}
-                                />
+                                  <input
+                                    type="number"
+                                    placeholder="(50 days max)"
+                                    className={` date-picker ${
+                                      errors.minordays2020
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="5days"
+                                    name="minordays2020"
+                                    value={formData.minordays2020}
+                                    onChange={handleInputChange}
+                                  />
+                                </div>
                               </div>
                             </div>
-                          </div>
                           )}
-
 
                           <label for="Self-employed" class="form-label fs-5">
                             How many days were you affected by the closure of
@@ -3467,127 +3697,134 @@ const checkEmailAvailability = async () => {
                             </span>
                           </label>
 
-                          <div style={{display: 'flex', flexDirection: 'row'}}>
-                          <div class="optio mb-2">
-                            <p>
-                              <input
-                                className="form-check-input"
-                                class={`form-check-input ${
-                                  errors.closure2021 ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="closure2021"
-                                checked={formData.closure2021 === "Yes"}
-                                value="Yes"
-                                // id="self_employed_from_yes"
-                                onChange={handleInputChange}
-                              />
-                              Yes
-                            </p>
-                          </div>
-                          <div class="optio">
-                            <p>
-                              <input
-                                class={`form-check-input ${
-                                  errors.closure2021 ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="closure2021"
-                                value="No"
-                                checked={formData.closure2021 === "No"}
-                                // id="self_employed_from_no"
-                                onChange={handleInputChange}
-                              />
-                              No
-                            </p>
-                          </div>
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <div class="optio mb-2">
+                              <p>
+                                <input
+                                  className="form-check-input"
+                                  class={`form-check-input ${
+                                    errors.closure2021 ? "border-danger" : ""
+                                  }`}
+                                  type="radio"
+                                  name="closure2021"
+                                  checked={formData.closure2021 === "Yes"}
+                                  value="Yes"
+                                  // id="self_employed_from_yes"
+                                  onChange={handleInputChange}
+                                />
+                                Yes
+                              </p>
+                            </div>
+                            <div class="optio">
+                              <p>
+                                <input
+                                  class={`form-check-input ${
+                                    errors.closure2021 ? "border-danger" : ""
+                                  }`}
+                                  type="radio"
+                                  name="closure2021"
+                                  value="No"
+                                  checked={formData.closure2021 === "No"}
+                                  // id="self_employed_from_no"
+                                  onChange={handleInputChange}
+                                />
+                                No
+                              </p>
+                            </div>
                           </div>
 
                           {formData.closure2021 === "Yes" && (
-                          <div class="row">
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label
-                                  for="minor_startdate2021"
-                                  class="form-label fs-6"
-                                >
-                                  Start
-                                </label>
-                               
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label
+                                    for="minor_startdate2021"
+                                    class="form-label fs-6"
+                                  >
+                                    Start
+                                  </label>
                                   <input
-                                 type="date"
-                                 min="2021-01-01"
-                                 max="2021-09-30"
-                                  // className="date-picker"
-                                  className={` date-picker ${
-                                    errors.minor_startdate2021
-                                      ? "border-danger"
-                                      : ""
-                                  }`}
-                                  id="minor_startdate2021"
-                                  name="minor_startdate2021"
-                                  value={formData.minor_startdate2021}
-                                  onChange={handleInputChange}
-                                  disabled={formData.minordays2021 === "0"}
-                                />{" "}
+                                    type="date"
+                                    min="2021-01-01"
+                                    max="2021-09-30"
+                                    // className="date-picker"
+                                    className={` date-picker ${
+                                      errors.minor_startdate2021
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="minor_startdate2021"
+                                    name="minor_startdate2021"
+                                    value={formData.minor_startdate2021}
+                                    onChange={handleInputChange}
+                                    disabled={formData.minordays2021 === "0"}
+                                  />{" "}
+                                </div>
                               </div>
-                            </div>
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label
-                                  for="minor_enddate2021"
-                                  class="form-label fs-6"
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label
+                                    for="minor_enddate2021"
+                                    class="form-label fs-6"
+                                  >
+                                    End
+                                  </label>
+                                  <input
+                                    type="date"
+                                    min="2021-01-01"
+                                    max="2021-09-30"
+                                    // className="date-picker"
+                                    className={` date-picker ${
+                                      errors.minor_enddate2021
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="minor_enddate2021"
+                                    name="minor_enddate2021"
+                                    value={formData.minor_enddate2021}
+                                    onChange={handleInputChange}
+                                    disabled={formData.minordays2021 === "0"}
+                                  />{" "}
+                                </div>
+                              </div>
+
+                              {formData.minordays2021 === "0" && (
+                                <p
+                                  style={{
+                                    color: "rgb(255, 149, 0)",
+                                    fontFamily: "sans-serif",
+                                    fontSize: 15,
+                                  }}
                                 >
-                                  End
-                                </label>
-                              
-                                   <input
-                                 type="date"
-                                 min="2021-01-01"
-                                 max="2021-09-30"
-                                  // className="date-picker"
-                                  className={` date-picker ${
-                                    errors.minor_enddate2021
-                                      ? "border-danger"
-                                      : ""
-                                  }`}
-                                  id="minor_enddate2021"
-                                  name="minor_enddate2021"
-                                  value={formData.minor_enddate2021}
-                                  onChange={handleInputChange}
-                                  disabled={formData.minordays2021 === "0"}
-                                />{" "}
+                                  Start and end date is not significant for days
+                                  zero.
+                                </p>
+                              )}
+
+                              <div class="col-lg-6">
+                                <div class="optio mb-2">
+                                  <label for="6days" class="form-label fs-6">
+                                    Number of days:
+                                  </label>
+
+                                  <input
+                                    type="number"
+                                    placeholder="(60 days max)"
+                                    className={` date-picker ${
+                                      errors.minordays2021
+                                        ? "border-danger"
+                                        : ""
+                                    }`}
+                                    id="6days"
+                                    name="minordays2021"
+                                    value={formData.minordays2021}
+                                    onChange={handleInputChange}
+                                  />
+                                </div>
                               </div>
                             </div>
-
-                            {formData.minordays2021 === "0" && (
-                              <p style={{color: 'rgb(255, 149, 0)', fontFamily: 'sans-serif', fontSize: 15}}>
-                                Start and end date is not significant for days zero.
-                              </p>
-                            )}
-
-
-                            <div class="col-lg-6">
-                              <div class="optio mb-2">
-                                <label for="6days" class="form-label fs-6">
-                                  Number of days:
-                                </label>
-                               
-                                   <input
-                                  type="number"
-                                  placeholder="(60 days max)"
-                                  className={` date-picker ${
-                                    errors.minordays2021 ? "border-danger" : ""
-                                  }`}
-                                  
-                                  id="6days"
-                                  name="minordays2021"
-                                  value={formData.minordays2021}
-                                  onChange={handleInputChange}
-                                />
-                              </div>
-                            </div>
-                          </div>
                           )}
 
                           <div class="d-flex justify-content-end mt-3">
@@ -3670,7 +3907,6 @@ const checkEmailAvailability = async () => {
                           </label>
                           <div class="optio mb-2">
                             <p>
-                            
                               <input
                                 className="form-check-input"
                                 class={`form-check-input ${
@@ -3688,8 +3924,7 @@ const checkEmailAvailability = async () => {
                           </div>
                           <div class="optio">
                             <p>
-                             
-                                 <input
+                              <input
                                 className="form-check-input"
                                 class={`form-check-input ${
                                   errors.employed_as_W2 ? "border-danger" : ""
@@ -3706,17 +3941,17 @@ const checkEmailAvailability = async () => {
                           </div>
                           {formData.employed_as_W2 === "Yes" && (
                             <>
-                          <div id="additional">
-                            <label
-                              for="Self-employed"
-                              class="form-label bg-light py-3 px-1 fs-5"
-                            >
-                              If yes, did your employer pay Family Sick Leave
-                              during Covid, and what amount?
-                            </label>
-                            <div class="optio mb-2">
-                              <p>
-                                {/* <input
+                              <div id="additional">
+                                <label
+                                  for="Self-employed"
+                                  class="form-label bg-light py-3 px-1 fs-5"
+                                >
+                                  If yes, did your employer pay Family Sick
+                                  Leave during Covid, and what amount?
+                                </label>
+                                <div class="optio mb-2">
+                                  <p>
+                                    {/* <input
                                   class="form-check-input"
                                   type="radio"
                                   name="Family_Sick_Leave"
@@ -3724,24 +3959,26 @@ const checkEmailAvailability = async () => {
                                   id="flexRadioAmount"
                                 />
                                 Yes */}
-                                 <input
-                                className="form-check-input"
-                                class={`form-check-input ${
-                                  errors.family_sick ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="family_sick"
-                                checked={formData.family_sick === "Yes"}
-                                value="Yes"
-                                // id="self_employed_from_yes"
-                                onChange={handleInputChange}
-                              />
-                              Yes
-                              </p>
-                            </div>
-                            <div class="optio">
-                              <p>
-                                {/* <input
+                                    <input
+                                      className="form-check-input"
+                                      class={`form-check-input ${
+                                        errors.family_sick
+                                          ? "border-danger"
+                                          : ""
+                                      }`}
+                                      type="radio"
+                                      name="family_sick"
+                                      checked={formData.family_sick === "Yes"}
+                                      value="Yes"
+                                      // id="self_employed_from_yes"
+                                      onChange={handleInputChange}
+                                    />
+                                    Yes
+                                  </p>
+                                </div>
+                                <div class="optio">
+                                  <p>
+                                    {/* <input
                                   class="form-check-input"
                                   type="radio"
                                   name="Family_Sick_Leave"
@@ -3749,67 +3986,67 @@ const checkEmailAvailability = async () => {
                                   id="flexRadioAmountNo"
                                 />
                                 No */}
-                                <input
-                                className="form-check-input"
-                                class={`form-check-input ${
-                                  errors.family_sick ? "border-danger" : ""
-                                }`}
-                                type="radio"
-                                name="family_sick"
-                                checked={formData.family_sick === "No"}
-                                value="No"
-                                // id="self_employed_from_yes"
-                                onChange={handleInputChange}
-                              />
-                              No
-                              </p>
-                            </div>
-                          </div>
-                          {formData.family_sick === "Yes" && (
-                         
-
-                          <div id="amount" style={{ marginTop: "5.5px" }}>
-                            <div class="optio mb-2">
-                              {/* <input
+                                    <input
+                                      className="form-check-input"
+                                      class={`form-check-input ${
+                                        errors.family_sick
+                                          ? "border-danger"
+                                          : ""
+                                      }`}
+                                      type="radio"
+                                      name="family_sick"
+                                      checked={formData.family_sick === "No"}
+                                      value="No"
+                                      // id="self_employed_from_yes"
+                                      onChange={handleInputChange}
+                                    />
+                                    No
+                                  </p>
+                                </div>
+                              </div>
+                              {formData.family_sick === "Yes" && (
+                                <div id="amount" style={{ marginTop: "5.5px" }}>
+                                  <div class="optio mb-2">
+                                    {/* <input
                                 type="text"
                                 class="for mb-2"
                                 name="amount2020"
                                 placeholder="$2020"
                                 id="amount2020"
                               /> */}
-                               <input
-                              type="text"
-                              value={formData.amount2020}
-                              name="amount2020"
-                              class={` for mb-2 ${
-                                errors.amount2020 ? "border-danger" : ""
-                              }`}
-                              placeholder="2021 Income"
-                              onChange={handleInputChange}
-                              id="amount2020"
-                            />
-                              {/* <input
+                                    <input
+                                      type="text"
+                                      value={formData.amount2020}
+                                      name="amount2020"
+                                      class={` for mb-2 ${
+                                        errors.amount2020 ? "border-danger" : ""
+                                      }`}
+                                      placeholder="2021 Income"
+                                      onChange={handleInputChange}
+                                      id="amount2020"
+                                    />
+                                    {/* <input
                                 type="text"
                                 class="for "
                                 name="amount2021"
                                 placeholder="$2021"
                                 id="amount2021"
                               /> */}
-                               <input
-                              type="text"
-                              value={formData.amount2021}
-                              name="amount2021"
-                              class={` for ${
-                                errors.amount2021 ? "border-danger" : ""
-                              }`}
-                              placeholder="2021 Income"
-                              onChange={handleInputChange}
-                              id="amount2021"
-                            />
-                            </div>
-                          </div>
-                          )}
-                          </>
+                                    <input
+                                      type="text"
+                                      value={formData.amount2021}
+                                      name="amount2021"
+                                      class={` for ${
+                                        errors.amount2021 ? "border-danger" : ""
+                                      }`}
+                                      placeholder="2021 Income"
+                                      onChange={handleInputChange}
+                                      id="amount2021"
+                                    />
+                                  </div>
+                                </div>
+                              )}
+                            </>
                           )}
                           <div class="d-flex justify-content-end mt-3">
                             <button
@@ -3940,40 +4177,49 @@ const checkEmailAvailability = async () => {
                     A PDF Copy of a Current ID or Driver's License
                   </label>
 
-          {userData?.driving_licence ? (
-           <div class="containerr">
-           <div class="itemm">
-           <TaskAlt/>
-             <span class="namee">{userData?.driving_licence_name}</span>
-           </div>
-         
-           <div class="itemm" style={{padding: '0px 20px !important'}}> 
-           <div  onClick={() => openFileInNewTab('driving_licence')} class="buttonn" >
-             View
-           </div>
-           <div onClick={() => removeFile('driving_licence')} class="buttonn" >
-             Remove
-           </div>
-           </div>
-         </div>
-         
-                 
-          ) :
-          (
-            <input
-            type="file"
-            name="driving_licence"
-            class="form-control file"
-            id="driving_licence"
-            accept=".pdf"
-            required
-            onChange={(e) => handleFileChange('driving_licence', e)}
-          />
-          )
-          }
-{uploadingFile === 'driving_licence' && (
-  <LinearProgressWithLabel value={uploadProgress.driving_licence} />
-)}
+                  {userData?.driving_licence ? (
+                    <div class="containerr">
+                      <div class="itemm">
+                        <TaskAlt />
+                        <span class="namee">
+                          {userData?.driving_licence_name}
+                        </span>
+                      </div>
+
+                      <div
+                        class="itemm"
+                        style={{ padding: "0px 20px !important" }}
+                      >
+                        <div
+                          onClick={() => openFileInNewTab("driving_licence")}
+                          class="buttonn"
+                        >
+                          View
+                        </div>
+                        <div
+                          onClick={() => removeFile("driving_licence")}
+                          class="buttonn"
+                        >
+                          Remove
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <input
+                      type="file"
+                      name="driving_licence"
+                      class="form-control file"
+                      id="driving_licence"
+                      accept=".pdf"
+                      required
+                      onChange={(e) => handleFileChange("driving_licence", e)}
+                    />
+                  )}
+                  {uploadingFile === "driving_licence" && (
+                    <LinearProgressWithLabel
+                      value={uploadProgress.driving_licence}
+                    />
+                  )}
                 </div>
                 <div class="mb-3 file_div">
                   <label for="schedule_pdf" class="form-label">
@@ -3983,37 +4229,46 @@ const checkEmailAvailability = async () => {
                   </label>
 
                   {userData?.schedule_pdf ? (
-             <div class="containerr">
-             <div class="itemm">
-             <TaskAlt/>
-               <span class="namee">{userData?.schedule_pdf_name}</span>
-             </div>
-            
-             <div class="itemm" style={{padding: '0px 20px !important'}}> 
-             <div  onClick={() => openFileInNewTab('schedule_pdf')} class="buttonn" >
-               View
-             </div>
-             <div onClick={() => removeFile('schedule_pdf')} class="buttonn" >
-               Remove
-             </div>
-             </div>
-            </div>
-                 
-          ) :
-          (
-                  <input
-                    type="file"
-                    name="schedule_pdf"
-                    class="form-control"
-                    id="schedule_pdf"
-                    accept=".pdf"
-                    required
-                    onChange={(e) => handleFileChange('schedule_pdf', e)}
-                  />
+                    <div class="containerr">
+                      <div class="itemm">
+                        <TaskAlt />
+                        <span class="namee">{userData?.schedule_pdf_name}</span>
+                      </div>
+
+                      <div
+                        class="itemm"
+                        style={{ padding: "0px 20px !important" }}
+                      >
+                        <div
+                          onClick={() => openFileInNewTab("schedule_pdf")}
+                          class="buttonn"
+                        >
+                          View
+                        </div>
+                        <div
+                          onClick={() => removeFile("schedule_pdf")}
+                          class="buttonn"
+                        >
+                          Remove
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <input
+                      type="file"
+                      name="schedule_pdf"
+                      class="form-control"
+                      id="schedule_pdf"
+                      accept=".pdf"
+                      required
+                      onChange={(e) => handleFileChange("schedule_pdf", e)}
+                    />
                   )}
-                  {uploadingFile === 'schedule_pdf' && (
-  <LinearProgressWithLabel value={uploadProgress?.schedule_pdf} />
-)}
+                  {uploadingFile === "schedule_pdf" && (
+                    <LinearProgressWithLabel
+                      value={uploadProgress?.schedule_pdf}
+                    />
+                  )}
                 </div>
                 <div class="mb-3 file_div">
                   <label for="Tax_Return_2020" class="form-label">
@@ -4023,37 +4278,48 @@ const checkEmailAvailability = async () => {
                   </label>
 
                   {userData?.Tax_Return_2020 ? (
-                           <div class="containerr">
-                           <div class="itemm">
-                           <TaskAlt/>
-                             <span class="namee">{userData?.Tax_Return_2020_name}</span>
-                           </div>
-                          
-                           <div class="itemm" style={{padding: '0px 20px !important'}}> 
-                           <div  onClick={() => openFileInNewTab('Tax_Return_2020')} class="buttonn" >
-                             View
-                           </div>
-                           <div onClick={() => removeFile('Tax_Return_2020')}  class="buttonn" >
-                             Remove
-                           </div>
-                           </div>
-                          </div>
-                 
-          ) :     (
-                  <input
-                    type="file"
-                    name="Tax_Return_2020"
-                    class="form-control"
-                    id="Tax_Return_2020"
-                    accept=".pdf"
-                    required
-                    onChange={(e) => handleFileChange('Tax_Return_2020', e)}
-                  />
-          )
-          }
-          {uploadingFile === 'Tax_Return_2020' && (
-  <LinearProgressWithLabel value={uploadProgress?.Tax_Return_2020} />
-)}
+                    <div class="containerr">
+                      <div class="itemm">
+                        <TaskAlt />
+                        <span class="namee">
+                          {userData?.Tax_Return_2020_name}
+                        </span>
+                      </div>
+
+                      <div
+                        class="itemm"
+                        style={{ padding: "0px 20px !important" }}
+                      >
+                        <div
+                          onClick={() => openFileInNewTab("Tax_Return_2020")}
+                          class="buttonn"
+                        >
+                          View
+                        </div>
+                        <div
+                          onClick={() => removeFile("Tax_Return_2020")}
+                          class="buttonn"
+                        >
+                          Remove
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <input
+                      type="file"
+                      name="Tax_Return_2020"
+                      class="form-control"
+                      id="Tax_Return_2020"
+                      accept=".pdf"
+                      required
+                      onChange={(e) => handleFileChange("Tax_Return_2020", e)}
+                    />
+                  )}
+                  {uploadingFile === "Tax_Return_2020" && (
+                    <LinearProgressWithLabel
+                      value={uploadProgress?.Tax_Return_2020}
+                    />
+                  )}
                 </div>
                 <div class="mb-3 file_div">
                   <label for="Tax_Return_2021" class="form-label">
@@ -4061,296 +4327,390 @@ const checkEmailAvailability = async () => {
                     ALL schedules.{" "}
                   </label>
                   {userData?.Tax_Return_2021 ? (
-                     <div class="containerr">
-                     <div class="itemm">
-                     <TaskAlt/>
-                       <span class="namee">{userData?.Tax_Return_2021_name}</span>
-                     </div>
-                    
-                     <div class="itemm" style={{padding: '0px 20px !important'}}> 
-                     <div  onClick={() => openFileInNewTab('Tax_Return_2021')} class="buttonn" >
-                       View
-                     </div>
-                     <div  onClick={() => removeFile('Tax_Return_2021')}  class="buttonn" >
-                       Remove
-                     </div>
-                     </div>
-                    </div>
-                 
-          ) :     (
-                  <input
-                    type="file"
-                    name="Tax_Return_2021"
-                    class="form-control"
-                    id="Tax_Return_2021"
-                    accept=".pdf"
-                    required
-                    onChange={(e) => handleFileChange('Tax_Return_2021', e)}
-                  />
-          )
-    }
-    {uploadingFile === 'Tax_Return_2021' && (
-  <LinearProgressWithLabel value={uploadProgress?.Tax_Return_2021} />
-)}
-                </div>
-              
-               {formData.family_sick === "Yes" && formData.employed_as_W2 === "Yes"  && (
+                    <div class="containerr">
+                      <div class="itemm">
+                        <TaskAlt />
+                        <span class="namee">
+                          {userData?.Tax_Return_2021_name}
+                        </span>
+                      </div>
 
-                <div class="pdf-upload-extra">
-
-                  <div class="mb-3 file_div">
-                    <label
-                      for="supplemental_attachment_2020"
-                      class="form-label"
-                    >
-                      PDF Copy of All your 2020 Form W-2(s), including ANY
-                      Family First Coronavirus Response Act (FFCRA) supplemental
-                      attachment(s).*
-                    </label>
-                    {userData?.supplemental_attachment_2020 ? (
-                          <div class="containerr">
-                          <div class="itemm">
-                          <TaskAlt/>
-                            <span class="namee">{userData?.supplemental_attachment_2020_name}</span>
-                          </div>
-                         
-                          <div class="itemm" style={{padding: '0px 20px !important'}}> 
-                          <div  onClick={() => openFileInNewTab('supplemental_attachment_2020')} class="buttonn" >
-                            View
-                          </div>
-                          <div onClick={() => removeFile('supplemental_attachment_2020')} class="buttonn" >
-                            Remove
-                          </div>
-                          </div>
-                         </div>
-          ) :  (
-                    <input
-                      type="file"
-                      name="supplemental_attachment_2020"
-                      class="form-control"
-                      id="supplemental_attachment_2020"
-                      accept=".pdf"
-                      required
-                      onChange={(e) => handleFileChange('supplemental_attachment_2020', e)}
-                    />
-          )
-    }
-     {uploadingFile === 'supplemental_attachment_2020' && (
-  <LinearProgressWithLabel value={uploadProgress?.supplemental_attachment_2020} />
-)}
-                  </div>
-
-                  <div class="mb-3 file_div">
-                    <label
-                      for="2021_supplemental_attachment_2021"
-                      class="form-label"
-                    >
-                      PDF Copy of All your 2021 Form W-2(s), including ANY
-                      Family First Coronavirus Response Act (FFCRA) supplemental
-                      attachment(s).
-                    </label>
-                    {userData?.supplemental_attachment_2021 ? (
-                     <div class="containerr">
-                     <div class="itemm">
-                     <TaskAlt/>
-                       <span class="namee">{userData?.supplemental_attachment_2021_name}</span>
-                     </div>
-                    
-                     <div class="itemm" style={{padding: '0px 20px !important'}}> 
-                     <div  onClick={() => openFileInNewTab('supplemental_attachment_2021')} class="buttonn" >
-                       View
-                     </div>
-                     <div onClick={() => removeFile('supplemental_attachment_2021')} class="buttonn" >
-                       Remove
-                     </div>
-                     </div>
-                    </div>
-                 
-          ) :  (
-                    <input
-                      type="file"
-                      name="supplemental_attachment_2021"
-                      class="form-control"
-                      id="supplemental_attachment_2021"
-                      accept=".pdf"
-                      required
-                      onChange={(e) => handleFileChange('supplemental_attachment_2021', e)}
-                    />
-          )
-    }
-     {uploadingFile === 'supplemental_attachment_2021' && (
-  <LinearProgressWithLabel value={uploadProgress?.supplemental_attachment_2021} />
-)}
-                  </div>
-
-                  <div class="mb-3 file_div">
-                    <label for="FormA1099" class="form-label">
-                      PDF Copy of All your 2020 Form 1099-R(s), if any
-                    </label>
-
-                    {userData?.FormA1099 ? (
-                            <div class="containerr">
-                            <div class="itemm">
-                            <TaskAlt/>
-                              <span class="namee">{userData?.FormA1099_name}</span>
-                            </div>
-                           
-                            <div class="itemm" style={{padding: '0px 20px !important'}}> 
-                            <div  onClick={() => openFileInNewTab('FormA1099')} class="buttonn" >
-                              View
-                            </div>
-                            <div onClick={() => removeFile('FormA1099')}  class="buttonn" >
-                              Remove
-                            </div>
-                            </div>
-                           </div>
-                 
-          ) :  (
-                    <input
-                      type="file"
-                      name="FormA1099"
-                      class="form-control"
-                      id="FormA1099"
-                      accept=".pdf"
-                      required
-                      onChange={(e) => handleFileChange('FormA1099', e)}
-                    />
-
-          )
-    }
-      {uploadingFile === 'FormA1099' && (
-  <LinearProgressWithLabel value={uploadProgress?.FormA1099} />
-)}
-                  </div>
-
-                  <div class="mb-3 file_div">
-                    <label for="FormB1099" class="form-label">
-                      PDF Copy of All your 2021 Form 1099-R(s), if any
-                    </label>
-                    
-                    {userData?.FormB1099 ? (
-                             <div class="containerr">
-                             <div class="itemm">
-                             <TaskAlt/>
-                               <span class="namee">{userData?.FormB1099_name}</span>
-                             </div>
-                            
-                             <div class="itemm" style={{padding: '0px 20px !important'}}> 
-                             <div  onClick={() => openFileInNewTab('FormB1099')} class="buttonn" >
-                               View
-                             </div>
-                             <div onClick={() => removeFile('FormB1099')} class="buttonn" >
-                               Remove
-                             </div>
-                             </div>
-                            </div>
-                 
-          ) :  (
-                    <input
-                      type="file"
-                      name="FormB1099"
-                      class="form-control"
-                      id="FormB1099"
-                      accept=".pdf"
-                      required
-                      onChange={(e) => handleFileChange('FormB1099', e)}
-                    />
-          )
-    }
-     {uploadingFile === 'FormB1099' && (
-  <LinearProgressWithLabel value={uploadProgress?.FormB1099} />
-)}
-                  </div>
-
-                  <div class="mb-3 file_div">
-                    <label for="ks2020" class="form-label">
-                      PDF Copy of All your 2020 K-1s, if any
-                    </label>
-                    {userData?.ks2020 ? (
-                           <div class="containerr">
-                           <div class="itemm">
-                           <TaskAlt/>
-                             <span class="namee">{userData?.ks2020_name}</span>
-                           </div>
-                          
-                           <div class="itemm" style={{padding: '0px 20px !important'}}> 
-                           <div  onClick={() => openFileInNewTab('ks2020')} class="buttonn" >
-                             View
-                           </div>
-                           <div onClick={() => removeFile('ks2020')} class="buttonn" >
-                             Remove
-                           </div>
-                           </div>
-                          </div>
-                 
-          ) :  (
-                    <input
-                      type="file"
-                      name="ks2020"
-                      class="form-control"
-                      id="ks2020"
-                      accept=".pdf"
-                      required
-                      onChange={(e) => handleFileChange('ks2020', e)}
-                    />
-          )
-    }
-     {uploadingFile === 'ks2020' && (
-  <LinearProgressWithLabel value={uploadProgress?.ks2020} />
-)}
-                  </div>
-
-                  <div class="mb-3 file_div">
-                    <label for="ks22020" class="form-label">
-                      PDF Copy of All your 2020 K-1s, if any
-                    </label>
-                    {userData?.ks22020 ? (
-                         <div class="containerr">
-                         <div class="itemm">
-                         <TaskAlt/>
-                           <span class="namee">{userData?.ks22020_name}</span>
-                         </div>
-                        
-                         <div class="itemm" style={{padding: '0px 20px !important'}}> 
-                         <div  onClick={() => openFileInNewTab('ks22020')} class="buttonn" >
-                           View
-                         </div>
-                         <div onClick={() => removeFile('ks22020')} class="buttonn" >
-                           Remove
-                         </div>
-                         </div>
+                      <div
+                        class="itemm"
+                        style={{ padding: "0px 20px !important" }}
+                      >
+                        <div
+                          onClick={() => openFileInNewTab("Tax_Return_2021")}
+                          class="buttonn"
+                        >
+                          View
                         </div>
-                 
-          ) :  (
+                        <div
+                          onClick={() => removeFile("Tax_Return_2021")}
+                          class="buttonn"
+                        >
+                          Remove
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
                     <input
                       type="file"
-                      name="ks22020"
+                      name="Tax_Return_2021"
                       class="form-control"
-                      id="ks22020"
+                      id="Tax_Return_2021"
                       accept=".pdf"
                       required
-                      onChange={(e) => handleFileChange('ks22020', e)}
+                      onChange={(e) => handleFileChange("Tax_Return_2021", e)}
                     />
-          )
-    }
-    {uploadingFile === 'ks22020' && (
-  <LinearProgressWithLabel value={uploadProgress?.ks22020} />
-)}
-                  </div>
-
+                  )}
+                  {uploadingFile === "Tax_Return_2021" && (
+                    <LinearProgressWithLabel
+                      value={uploadProgress?.Tax_Return_2021}
+                    />
+                  )}
                 </div>
 
-                )} 
-                
+                {formData.family_sick === "Yes" &&
+                  formData.employed_as_W2 === "Yes" && (
+                    <div class="pdf-upload-extra">
+                      <div class="mb-3 file_div">
+                        <label
+                          for="supplemental_attachment_2020"
+                          class="form-label"
+                        >
+                          PDF Copy of All your 2020 Form W-2(s), including ANY
+                          Family First Coronavirus Response Act (FFCRA)
+                          supplemental attachment(s).*
+                        </label>
+                        {userData?.supplemental_attachment_2020 ? (
+                          <div class="containerr">
+                            <div class="itemm">
+                              <TaskAlt />
+                              <span class="namee">
+                                {userData?.supplemental_attachment_2020_name}
+                              </span>
+                            </div>
+
+                            <div
+                              class="itemm"
+                              style={{ padding: "0px 20px !important" }}
+                            >
+                              <div
+                                onClick={() =>
+                                  openFileInNewTab(
+                                    "supplemental_attachment_2020"
+                                  )
+                                }
+                                class="buttonn"
+                              >
+                                View
+                              </div>
+                              <div
+                                onClick={() =>
+                                  removeFile("supplemental_attachment_2020")
+                                }
+                                class="buttonn"
+                              >
+                                Remove
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <input
+                            type="file"
+                            name="supplemental_attachment_2020"
+                            class="form-control"
+                            id="supplemental_attachment_2020"
+                            accept=".pdf"
+                            required
+                            onChange={(e) =>
+                              handleFileChange(
+                                "supplemental_attachment_2020",
+                                e
+                              )
+                            }
+                          />
+                        )}
+                        {uploadingFile === "supplemental_attachment_2020" && (
+                          <LinearProgressWithLabel
+                            value={uploadProgress?.supplemental_attachment_2020}
+                          />
+                        )}
+                      </div>
+
+                      <div class="mb-3 file_div">
+                        <label
+                          for="2021_supplemental_attachment_2021"
+                          class="form-label"
+                        >
+                          PDF Copy of All your 2021 Form W-2(s), including ANY
+                          Family First Coronavirus Response Act (FFCRA)
+                          supplemental attachment(s).
+                        </label>
+                        {userData?.supplemental_attachment_2021 ? (
+                          <div class="containerr">
+                            <div class="itemm">
+                              <TaskAlt />
+                              <span class="namee">
+                                {userData?.supplemental_attachment_2021_name}
+                              </span>
+                            </div>
+
+                            <div
+                              class="itemm"
+                              style={{ padding: "0px 20px !important" }}
+                            >
+                              <div
+                                onClick={() =>
+                                  openFileInNewTab(
+                                    "supplemental_attachment_2021"
+                                  )
+                                }
+                                class="buttonn"
+                              >
+                                View
+                              </div>
+                              <div
+                                onClick={() =>
+                                  removeFile("supplemental_attachment_2021")
+                                }
+                                class="buttonn"
+                              >
+                                Remove
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <input
+                            type="file"
+                            name="supplemental_attachment_2021"
+                            class="form-control"
+                            id="supplemental_attachment_2021"
+                            accept=".pdf"
+                            required
+                            onChange={(e) =>
+                              handleFileChange(
+                                "supplemental_attachment_2021",
+                                e
+                              )
+                            }
+                          />
+                        )}
+                        {uploadingFile === "supplemental_attachment_2021" && (
+                          <LinearProgressWithLabel
+                            value={uploadProgress?.supplemental_attachment_2021}
+                          />
+                        )}
+                      </div>
+
+                      <div class="mb-3 file_div">
+                        <label for="FormA1099" class="form-label">
+                          PDF Copy of All your 2020 Form 1099-R(s), if any
+                        </label>
+
+                        {userData?.FormA1099 ? (
+                          <div class="containerr">
+                            <div class="itemm">
+                              <TaskAlt />
+                              <span class="namee">
+                                {userData?.FormA1099_name}
+                              </span>
+                            </div>
+
+                            <div
+                              class="itemm"
+                              style={{ padding: "0px 20px !important" }}
+                            >
+                              <div
+                                onClick={() => openFileInNewTab("FormA1099")}
+                                class="buttonn"
+                              >
+                                View
+                              </div>
+                              <div
+                                onClick={() => removeFile("FormA1099")}
+                                class="buttonn"
+                              >
+                                Remove
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <input
+                            type="file"
+                            name="FormA1099"
+                            class="form-control"
+                            id="FormA1099"
+                            accept=".pdf"
+                            required
+                            onChange={(e) => handleFileChange("FormA1099", e)}
+                          />
+                        )}
+                        {uploadingFile === "FormA1099" && (
+                          <LinearProgressWithLabel
+                            value={uploadProgress?.FormA1099}
+                          />
+                        )}
+                      </div>
+
+                      <div class="mb-3 file_div">
+                        <label for="FormB1099" class="form-label">
+                          PDF Copy of All your 2021 Form 1099-R(s), if any
+                        </label>
+
+                        {userData?.FormB1099 ? (
+                          <div class="containerr">
+                            <div class="itemm">
+                              <TaskAlt />
+                              <span class="namee">
+                                {userData?.FormB1099_name}
+                              </span>
+                            </div>
+
+                            <div
+                              class="itemm"
+                              style={{ padding: "0px 20px !important" }}
+                            >
+                              <div
+                                onClick={() => openFileInNewTab("FormB1099")}
+                                class="buttonn"
+                              >
+                                View
+                              </div>
+                              <div
+                                onClick={() => removeFile("FormB1099")}
+                                class="buttonn"
+                              >
+                                Remove
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <input
+                            type="file"
+                            name="FormB1099"
+                            class="form-control"
+                            id="FormB1099"
+                            accept=".pdf"
+                            required
+                            onChange={(e) => handleFileChange("FormB1099", e)}
+                          />
+                        )}
+                        {uploadingFile === "FormB1099" && (
+                          <LinearProgressWithLabel
+                            value={uploadProgress?.FormB1099}
+                          />
+                        )}
+                      </div>
+
+                      <div class="mb-3 file_div">
+                        <label for="ks2020" class="form-label">
+                          PDF Copy of All your 2020 K-1s, if any
+                        </label>
+                        {userData?.ks2020 ? (
+                          <div class="containerr">
+                            <div class="itemm">
+                              <TaskAlt />
+                              <span class="namee">{userData?.ks2020_name}</span>
+                            </div>
+
+                            <div
+                              class="itemm"
+                              style={{ padding: "0px 20px !important" }}
+                            >
+                              <div
+                                onClick={() => openFileInNewTab("ks2020")}
+                                class="buttonn"
+                              >
+                                View
+                              </div>
+                              <div
+                                onClick={() => removeFile("ks2020")}
+                                class="buttonn"
+                              >
+                                Remove
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <input
+                            type="file"
+                            name="ks2020"
+                            class="form-control"
+                            id="ks2020"
+                            accept=".pdf"
+                            required
+                            onChange={(e) => handleFileChange("ks2020", e)}
+                          />
+                        )}
+                        {uploadingFile === "ks2020" && (
+                          <LinearProgressWithLabel
+                            value={uploadProgress?.ks2020}
+                          />
+                        )}
+                      </div>
+
+                      <div class="mb-3 file_div">
+                        <label for="ks22020" class="form-label">
+                          PDF Copy of All your 2020 K-1s, if any
+                        </label>
+                        {userData?.ks22020 ? (
+                          <div class="containerr">
+                            <div class="itemm">
+                              <TaskAlt />
+                              <span class="namee">
+                                {userData?.ks22020_name}
+                              </span>
+                            </div>
+
+                            <div
+                              class="itemm"
+                              style={{ padding: "0px 20px !important" }}
+                            >
+                              <div
+                                onClick={() => openFileInNewTab("ks22020")}
+                                class="buttonn"
+                              >
+                                View
+                              </div>
+                              <div
+                                onClick={() => removeFile("ks22020")}
+                                class="buttonn"
+                              >
+                                Remove
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <input
+                            type="file"
+                            name="ks22020"
+                            class="form-control"
+                            id="ks22020"
+                            accept=".pdf"
+                            required
+                            onChange={(e) => handleFileChange("ks22020", e)}
+                          />
+                        )}
+                        {uploadingFile === "ks22020" && (
+                          <LinearProgressWithLabel
+                            value={uploadProgress?.ks22020}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  )}
+
                 <div class="data-p py-2 mb-2">
                   <p>
-                   <input
-            className="form-check-input me-1"
-            type="checkbox"
-            value=""
-            id="flexCheckD"
-            onChange={handleCheckboxChange}
-          />
+                    <input
+                      className="form-check-input me-1"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckD"
+                      onChange={handleCheckboxChange}
+                    />
                     By checking this box you attest that the answers and
                     information provided are true and accurate to the best of
                     your knowledge, and understand that once submitted your
@@ -4368,30 +4728,39 @@ const checkEmailAvailability = async () => {
                   </p>
                 </div>
                 <div class="d-flex justify-content-center flex-wrap">
-                  <button  onClick={handlePrevious} type="button" class=" prev-step mb-2">
+                  <button
+                    onClick={handlePrevious}
+                    type="button"
+                    class=" prev-step mb-2"
+                  >
                     Previous
                   </button>
                   <button
-        type="button"
-        id="confirmSubmitModalLaterBtn"
-        data-bs-target="#confirmSubmitModalwithout"
-        className="btn btn-primary px-5 py-2 me-2 mb-2 next-step"
-        disabled={shouldDisableButtonLater()}
-        onClick={handleSubmitLater}
-      >
-        Submit Documents Later
-      </button>
+                    type="button"
+                    id="confirmSubmitModalLaterBtn"
+                    data-bs-target="#confirmSubmitModalwithout"
+                    className="btn btn-primary px-5 py-2 me-2 mb-2 next-step"
+                    disabled={shouldDisableButtonLater()}
+                    onClick={handleSubmitLater}
+                  >
+                    Submit Documents Later
+                  </button>
 
-      <button
-        type="button"
-        className="btn btn-primary px-5 py-2 mb-2 next-step"
-        style={{ backgroundColor: '#29abe2' }}
-        data-bs-target="#confirmSubmitModalLater"
-        disabled={formData.family_sick === "Yes" && formData.employed_as_W2 === "Yes" ? shouldDisableButtonsAdditional() : shouldDisableButtons()}
-        onClick={handleSubmiDocuments}
-      >
-        Submit Now
-      </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary px-5 py-2 mb-2 next-step"
+                    style={{ backgroundColor: "#29abe2" }}
+                    data-bs-target="#confirmSubmitModalLater"
+                    disabled={
+                      formData.family_sick === "Yes" &&
+                      formData.employed_as_W2 === "Yes"
+                        ? shouldDisableButtonsAdditional()
+                        : shouldDisableButtons()
+                    }
+                    onClick={handleSubmiDocuments}
+                  >
+                    Submit Now
+                  </button>
 
                   <div
                     class="modal fade"
@@ -4494,46 +4863,67 @@ const checkEmailAvailability = async () => {
   };
 
   return (
-    <Box sx={{ width: "100%", marginTop: 10 , backgroundImage: ' linear-gradient(direction, color-stop1, color-stop2)' }}>
-   
+    <Box
+      sx={{
+        width: "100%",
+        marginTop: 10,
+        backgroundImage:
+          " linear-gradient(direction, color-stop1, color-stop2)",
+      }}
+    >
+      {userData?.applicationStatus !== true &&
+        userData?.applicationWithDocument !== true && <>{getStepContent()}</>}
 
-      {(userData?.applicationStatus !== true &&  userData?.applicationWithDocument !== true) &&  (
+      {userData?.applicationStatus === true && (
         <>
-      {getStepContent()}
-      </>
+          <div class="myClas2" style={{ marginBottom: 100 }}>
+            <div class="modal-body d-flex justify-content-center flex-column align-items-center pt-0">
+              <img src={gifTick} style={{ width: "120px" }} />
+              <h5 class="text-center pb-4">
+                <span class="text-success">Great</span>, your application has
+                been submitted. We will send you a personal upload link for your
+                documents.
+              </h5>
+
+              <button
+                type="button"
+                data-bs-dismiss="modal"
+                class="btn btn-primary"
+                id="confirmSubmitButton1"
+              >
+                Go on
+              </button>
+            </div>
+          </div>
+        </>
       )}
 
-{userData?.applicationStatus === true && (
+      {userData?.applicationWithDocument === true && (
         <>
-      <div class="myClas2" style={{marginBottom: 100}}>
-   
+          <div class="myClas2" style={{ marginBottom: 100 }}>
+            <div class="modal-body d-flex justify-content-center flex-column align-items-center pt-0">
+              <img src={gifTick} style={{ width: "120px" }} />
+              <h5 class="text-center">
+                <span class="text-success">Congratulations!</span> Your
+                application has been submitted!{" "}
+              </h5>
+              <h5 class="text-center">
+                {" "}
+                Our team will get back to you in 24-72 hours. Thank you.
+              </h5>
 
-   <div class="modal-body d-flex justify-content-center flex-column align-items-center pt-0">
-       <img src={gifTick} style={{width: "120px"}} />
-       <h5 class="text-center pb-4">
-           <span class="text-success">Great</span>, your application has been submitted. We will send you a personal upload link for your documents.
-       </h5>
-  
-       <button type="button" data-bs-dismiss="modal" class="btn btn-primary" id="confirmSubmitButton1">Go on</button>
-   </div>
-</div>
-      </>
-      )}
-
-{userData?.applicationWithDocument === true && (
-        <>
-      <div class="myClas2" style={{marginBottom: 100}}>
-
-   <div class="modal-body d-flex justify-content-center flex-column align-items-center pt-0">
-       <img src={gifTick} style={{width: "120px"}} />
-       <h5 class="text-center"><span class="text-success">Congratulations!</span> Your application has been submitted! </h5>
-      <h5 class="text-center"> Our team will get back to you in 24-72 hours. Thank you.</h5>
-  
-       <button style={{marginTop: 8}} type="button" data-bs-dismiss="modal" class="btn btn-primary" id="confirmSubmitButton1">Go on</button>
-   </div>
-   
-   </div>
-      </>
+              <button
+                style={{ marginTop: 8 }}
+                type="button"
+                data-bs-dismiss="modal"
+                class="btn btn-primary"
+                id="confirmSubmitButton1"
+              >
+                Go on
+              </button>
+            </div>
+          </div>
+        </>
       )}
       <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
         {/* <Button
@@ -4557,4 +4947,4 @@ const checkEmailAvailability = async () => {
   );
 };
 
-export default MultiStepForm;
+export default ErcMultiStepForm;
